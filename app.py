@@ -65,10 +65,7 @@ def fetch_live_league_data(league):
             df_mapped["Opp_TOV"] = df_opp["TOV"]
             return df_mapped
 
-        elif league == "WNBA":
-            raw_wnba = leaguedashteamstats.LeagueDashTeamStats(
-                league_id_nullable='20', 
-                        elif league == "WNBA":
+                elif league == "WNBA":
             raw_wnba = leaguedashteamstats.LeagueDashTeamStats(
                 league_id_nullable='20', 
                 season='2026',
@@ -105,6 +102,7 @@ def fetch_live_league_data(league):
             df_mapped["Opp_ORB"] = df_opp["OREB"]
             df_mapped["Opp_TOV"] = df_opp["TOV"]
             return df_mapped
+
 
 
         else:
