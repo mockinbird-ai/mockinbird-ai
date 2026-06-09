@@ -86,6 +86,77 @@ def fetch_live_league_data(league):
             df_mapped["TOV"] = df_base["TOV"]
             df_mapped["MIN"] = df_base["MIN"]
             
+@st.cache_data(ttl=14400)
+def fetch_live_league_data(league):
+    headers = {
+        'Host': 'stats.nba.com',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0',
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Referer': 'https://www.nba.com/',
+        'Origin': 'https://www.nba.com',
+        'Connection': 'keep-alive',
+    }
+
+    try:
+        if league == "NBA":
+            raw_nba = leaguedashteamstats.LeagueDashTeamStats(
+                season='2025-26',
+                per_mode_detailed='PerGame',
+                measure_type_detailed_defense='Base',
+                headers=headers,
+                timeout=30
+            )
+            df_base = raw_nba.get_data_frames()[0]
+            
+            df_mapped = pd.DataFrame()
+            df_mapped["Team"] = df_base["TEAM_NAME"]
+            df_mapped["GP"] = df_base["GP"]
+            df_mapped["PTS"] = df_base["PTS"]
+            df_mapped["FGA"] = df_base["FGA"]
+            df_mapped["FTA"] = df_base["FTA"]
+            df_mapped["ORB"] = df_base["OREB"]
+            df_mapped["TOV"] = df_base["TOV"]
+            df_mapped["MIN"] = df_base["MIN"]
+            
+            time.sleep(1.5)
+            raw_nba_opp = leaguedashteamstats.LeagueDashTeamStats(
+                season='2025-26',
+                per_mode_detailed='PerGame',
+                measure_type_detailed_defense='Opponent',
+                headers=headers,
+                timeout=30
+            )
+            df_opp = raw_nba_opp.get_data_frames()[0]
+            
+            df_mapped["Opp_PTS"] = df_opp["PTS"]
+            df_mapped["Opp_FGA"] = df_opp["FGA"]
+            df_mapped["Opp_FTA"] = df_opp["FTA"]
+            df_mapped["Opp_ORB"] = df_opp["OREB"]
+            df_mapped["Opp_TOV"] = df_opp["TOV"]
+            return df_mapped
+
+        elif league == "WNBA":
+            raw_wnba = leaguedashteamstats.LeagueDashTeamStats(
+                league_id_nullable='20', 
+                season='2026',
+                per_mode_detailed='PerGame',
+                measure_type_detailed_defense='Base',
+                headers=headers,
+                timeout=30
+            )
+            df_base = raw_wnba.get_data_frames()[0]
+            
+            df_mapped = pd.DataFrame()
+            df_mapped["Team"] = df_base["TEAM_NAME"]
+            df_mapped["GP"] = df_base["GP"]
+            df_mapped["PTS"] = df_base["PTS"]
+            df_mapped["FGA"] = df_base["FGA"]
+            df_mapped["FTA"] = df_base["FTA"]
+            df_mapped["ORB"] = df_base["OREB"]
+            df_mapped["TOV"] = df_base["TOV"]
+            df_mapped["MIN"] = df_base["MIN"]
+            
             time.sleep(1.5)
             raw_wnba_opp = leaguedashteamstats.LeagueDashTeamStats(
                 league_id_nullable='20',
@@ -103,13 +174,12 @@ def fetch_live_league_data(league):
             df_mapped["Opp_TOV"] = df_opp["TOV"]
             return df_mapped
 
-
-
         else:
             return fallback_euroleague_pipeline()
             
     except Exception as e:
         return fallback_euroleague_pipeline()
+
 
 def fallback_euroleague_pipeline():
     data = {
