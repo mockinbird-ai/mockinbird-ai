@@ -75,7 +75,8 @@ with st.spinner("Mockinbird AI fetching metrics..."):
     processed_stats = calculate_advanced_stats(raw_data, selected_league)
 
 st.subheader(f"📊 Dashboard: {selected_league}")
-st.dataframe(processed_stats.style.background_gradient(subset=["Net_Rating"], cmap="RdYlGn"), use_container_width=True)
+st.dataframe(processed_stats, use_container_width=True)
+
 
 st.subheader("🔮 Predictive Matchup Engine")
 col1, col2 = st.columns(2)
