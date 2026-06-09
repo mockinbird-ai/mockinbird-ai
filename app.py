@@ -68,6 +68,9 @@ def fetch_live_league_data(league):
         elif league == "WNBA":
             raw_wnba = leaguedashteamstats.LeagueDashTeamStats(
                 league_id_nullable='20', 
+                        elif league == "WNBA":
+            raw_wnba = leaguedashteamstats.LeagueDashTeamStats(
+                league_id_nullable='20', 
                 season='2026',
                 per_mode_detailed='PerGame',
                 measure_type_detailed_defense='Base',
@@ -102,6 +105,7 @@ def fetch_live_league_data(league):
             df_mapped["Opp_ORB"] = df_opp["OREB"]
             df_mapped["Opp_TOV"] = df_opp["TOV"]
             return df_mapped
+
 
         else:
             return fallback_euroleague_pipeline()
