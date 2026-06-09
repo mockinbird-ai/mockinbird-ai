@@ -1,8 +1,8 @@
-import time
-from nba_api.stats.endpoints import leaguedashteamstats
-import requests
+import streamlit as st
 import pandas as pd
-
+import numpy as np
+import time
+import request from nba_api.stats.endpoints import leaguedashteamstats
 @st.cache_data(ttl=14400) # Cache live data for 4 hours to minimize API rate limits
 def fetch_live_league_data(league):
     """
