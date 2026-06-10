@@ -84,7 +84,7 @@ with col2:
     away_team = st.selectbox("Away Team", processed_stats["Team"].unique(), index=1)
 
 if home_team != away_team:
-    if st.button("Execute High-Fidelity Form-Blended Simulation", type="primary"):
+    if st.button("Launch", type="primary"):
         home_profile = processed_stats[processed_stats["Team"] == home_team].iloc[0]
         away_profile = processed_stats[processed_stats["Team"] == away_team].iloc[0]
         
