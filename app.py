@@ -2,17 +2,14 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-st.set_page_config(page_title="Mockinbird AI", page_icon="🦅", layout="wide")
-st.title("MiHoops🏀")
-st.markdown("Automated predictive analysis engine using official real-world league hierarchies.")
+# 1. Setup Page configuration
+st.set_page_config(page_title="MiHoops Dashboard", page_icon="🏀", layout="wide")
+st.title("🏀MiHoops")
+st.markdown("Automated predictive analysis using official global basketball standing hierarchies.")
 st.markdown("---")
 
-@st.cache_data
+# 2. Hardcoded Solid Data Registry
 def fetch_complete_league_data(league_selection):
-    """
-    Authentic Global Standing Registry for Mockinbird AI.
-    All data normalized to standard Per Game (PG) efficiency structures.
-    """
     # ==================== NBA REGISTRY (30 TEAMS) ====================
     if league_selection == "NBA":
         return pd.DataFrame({
@@ -39,26 +36,26 @@ def fetch_complete_league_data(league_selection):
             "MIN": [48.0]*30
         })
         
-    # ==================== WNBA REGISTRY (16 TEAMS) ====================
+    # ==================== WNBA REGISTRY (12 ACTIVE) ====================
     elif league_selection == "WNBA":
         return pd.DataFrame({
             "Team": [
-                "New York Liberty", "Minnesota Lynx", "Connecticut Sun", "Las Vegas Aces", 
-                "Seattle Storm", "Indiana Fever", "Phoenix Mercury", "Atlanta Dream", 
-                "Chicago Sky", "Washington Mystics", "Los Angeles Sparks", "Dallas Wings",
-                "Golden State Valkyries", "Toronto WNBA", "Portland WNBA", "Orlando WNBA"
+                "Minnesota Lynx", "Las Vegas Aces", "Atlanta Dream", "Phoenix Mercury",
+                "New York Liberty", "Indiana Fever", "Seattle Storm", "Golden State Valkyries",
+                "Los Angeles Sparks", "Washington Mystics", "Connecticut Sun", "Chicago Sky", "Dallas Wings"
             ],
-            "GP": [40]*16, "PTS": [86.5, 82.3, 80.1, 87.8, 83.4, 84.8, 81.5, 77.2, 78.8, 79.1, 78.4, 81.8, 81.2, 80.1, 79.4, 80.5],
-            "Opp_PTS": [76.5, 75.8, 73.4, 81.2, 78.9, 87.3, 84.8, 80.3, 82.5, 82.7, 86.1, 86.9, 80.8, 80.9, 81.5, 82.1],
-            "FGA": [68.2, 66.5, 64.2, 69.1, 70.3, 68.8, 66.2, 67.5, 69.0, 66.0, 66.9, 71.1, 67.5, 66.2, 66.9, 67.4],
-            "FTA": [16.8, 15.2, 18.1, 19.5, 15.9, 17.5, 18.0, 18.2, 16.5, 15.9, 17.0, 19.1, 17.0, 16.5, 17.1, 16.9],
-            "ORB": [8.1, 7.8, 8.5, 6.9, 9.4, 7.5, 6.5, 8.0, 10.1, 7.0, 7.2, 10.5, 8.0, 7.8, 8.2, 8.1],
-            "TOV": [12.7, 13.4, 12.1, 11.2, 13.0, 14.4, 13.5, 12.9, 13.9, 14.1, 14.8, 12.3, 13.1, 13.4, 13.8, 13.3],
-            "Opp_FGA": [69.4, 67.2, 63.9, 69.8, 71.0, 71.2, 69.1, 67.3, 68.4, 66.5, 69.3, 70.5, 68.0, 67.5, 68.1, 68.3],
-            "Opp_FTA": [14.1, 14.8, 16.0, 15.5, 15.1, 17.0, 18.2, 16.9, 17.2, 18.0, 17.9, 19.5, 16.1, 16.5, 16.8, 17.0],
-            "Opp_ORB": [7.9, 8.1, 7.7, 8.6, 9.1, 8.5, 8.2, 8.8, 9.5, 8.0, 9.0, 9.8, 8.5, 8.2, 8.7, 8.6],
-            "Opp_TOV": [14.5, 15.1, 14.9, 12.6, 14.2, 11.9, 12.6, 12.2, 13.1, 14.5, 12.4, 12.8, 12.9, 12.7, 12.4, 13.0],
-            "MIN": [40.0]*16
+            "GP": [44]*13, 
+            "PTS": [86.1, 83.6, 84.4, 82.8, 84.4, 84.9, 82.1, 77.7, 85.7, 77.1, 75.8, 75.8, 81.7],
+            "Opp_PTS": [76.7, 80.7, 76.8, 80.1, 80.3, 81.5, 80.1, 76.3, 88.2, 81.6, 86.0, 85.8, 88.0],
+            "FGA": [68.2, 69.1, 67.5, 66.2, 68.2, 68.8, 70.3, 67.5, 66.9, 66.0, 64.2, 69.0, 71.1],
+            "FTA": [16.8, 19.5, 18.2, 18.0, 16.8, 17.5, 15.9, 17.0, 17.0, 15.9, 18.1, 16.5, 19.1],
+            "ORB": [8.1, 6.9, 8.0, 6.5, 8.1, 7.5, 9.4, 8.0, 7.2, 7.0, 8.5, 10.1, 10.5],
+            "TOV": [12.7, 11.2, 12.9, 13.5, 12.7, 14.4, 13.0, 13.1, 14.8, 14.1, 12.1, 13.9, 12.3],
+            "Opp_FGA": [69.4, 69.8, 67.3, 69.1, 69.4, 71.2, 71.0, 68.0, 69.3, 66.5, 63.9, 68.4, 70.5],
+            "Opp_FTA": [14.1, 15.5, 16.9, 18.2, 14.1, 17.0, 15.1, 16.1, 17.9, 18.0, 16.0, 17.2, 19.5],
+            "Opp_ORB": [7.9, 8.6, 8.8, 8.2, 7.9, 8.5, 9.1, 8.5, 9.0, 8.0, 7.7, 9.5, 9.8],
+            "Opp_TOV": [14.5, 12.6, 12.2, 12.6, 14.5, 11.9, 14.2, 12.9, 12.4, 14.5, 14.9, 13.1, 12.8],
+            "MIN": [40.0]*13
         })
 
     # ==================== SPAIN: LIGA ACB (18 TEAMS) ====================
@@ -147,18 +144,56 @@ def fetch_complete_league_data(league_selection):
             "MIN": [40.0]*15
         })
 
+# 3. Analytics Engine Execution
 def calculate_advanced_stats(df, league):
-    # Normalized possession tracking
     df["Possessions"] = df["FGA"] + (0.44 * df["FTA"]) - df["ORB"] + df["TOV"]
     df["Opp_Possessions"] = df["Opp_FGA"] + (0.44 * df["Opp_FTA"]) - df["Opp_ORB"] + df["Opp_TOV"]
     df["Avg_Poss"] = (df["Possessions"] + df["Opp_Possessions"]) / 2
     
-    # Structure regulation constraints
     reg_min = 48.0 if league == "NBA" else 40.0
-    floor_min_factor = (df["MIN"] / 5.0) if df["MIN"].max() > 100 else df["MIN"]
+    floor_min_factor = df["MIN"]
     
     df["Pace"] = df["Avg_Poss"] / (floor_min_factor / reg_min)
     df["Offensive_Rating"] = (df["PTS"] / df["Possessions"]) * 100
     df["Defensive_Rating"] = (df["Opp_PTS"] / df["Opp_Possessions"]) * 100
-    df["Net_Rating"] = df
+    df["Net_Rating"] = df["Offensive_Rating"] - df["Defensive_Rating"]
+    
+    return df[["Team", "Pace", "Offensive_Rating", "Defensive_Rating", "Net_Rating"]]
+
+# 4. Interactive User Interface View
+selected_league = st.sidebar.selectbox(
+    "Select League Registry", 
+    ["NBA", "WNBA", "Spain: Liga ACB", "Germany: easyCredit BBL", "France: LNB Élite", "Italy: Lega Basket Serie A"]
+)
+
+raw_data = fetch_complete_league_data(selected_league)
+processed_stats = calculate_advanced_stats(raw_data, selected_league)
+
+st.subheader(f"📊 League Standings & Analytics Dashboard: {selected_league}")
+st.dataframe(processed_stats, use_container_width=True)
+
+st.subheader("🔮 Matchup Engine")
+col1, col2 = st.columns(2)
+with col1: 
+    team_a = st.selectbox("Team A (Home)", processed_stats["Team"].unique(), index=0)
+with col2: 
+    team_b = st.selectbox("Team B (Away)", processed_stats["Team"].unique(), index=1)
+
+if team_a != team_b:
+    if st.button("Run Simulation", type="primary"):
+        sa = processed_stats[processed_stats["Team"] == team_a]
+        sb = processed_stats[processed_stats["Team"] == team_b]
+        
+        diff = sa["Net_Rating"].values[0] - sb["Net_Rating"].values[0]
+        prob_a = 1 / (1 + np.exp(-0.07 * diff))
+        
+        winner = team_a if prob_a > 0.5 else team_b
+        conf = max(prob_a, 1 - prob_a) * 100
+        
+        st.markdown("---")
+        st.header(f"🦅 Prediction: {winner} Wins")
+        st.metric("Confidence Score", f"{conf:.2f}%")
+        st.table(pd.concat([sa, sb]).set_index("Team"))
+else:
+    st.warning("Please pick two different teams.")
             
