@@ -7,8 +7,8 @@ import os
 # 1. GLOBAL LEAGUE CONFIGURATION REGISTRY
 # ==========================================
 st.set_page_config(page_title="MiHoops High-Fidelity Simulator", page_icon="🏀", layout="wide")
-st.title("🏀 MiHoops Precision Analytics Suite")
-st.markdown("### Tier-Anchored Performance Simulator | 50-50 Analytical Horizon Splitting")
+st.title("🏀 Mockinbird")
+st.markdown("Advanced Performance Basketball Prediction Engine")
 st.markdown("---")
 
 DATA_PATH = "data/stats.csv"
@@ -252,17 +252,17 @@ master_stats = generate_or_load_dataset()
 selected_league = st.sidebar.selectbox("Select Target Competition Registry", list(LEAGUE_REGISTRY.keys()))
 league_df = master_stats[master_stats["League"] == selected_league]
 
-st.subheader("⚙️ Matchup Design Engine")
+st.subheader("🐦 Matchup Profile")
 col1, col2 = st.columns(2)
 with col1:
-    home_team = st.selectbox("Designate Home Venue Unit", sorted(league_df["Team"].unique()), index=0)
+    home_team = st.selectbox("Home Team", sorted(league_df["Team"].unique()), index=0)
 with col2:
     # Safely select second team as default if available
     avail_teams = sorted(league_df["Team"].unique())
-    away_team = st.selectbox("Designate Road Competing Unit", avail_teams, index=1 if len(avail_teams) > 1 else 0)
+    away_team = st.selectbox("Away Team", avail_teams, index=1 if len(avail_teams) > 1 else 0)
 
 if home_team != away_team:
-    if st.button("Execute Form-Blended Simulation Matchup", type="primary"):
+    if st.button("Launch", type="primary"):
         home_profile = league_df[league_df["Team"] == home_team].iloc[0]
         away_profile = league_df[league_df["Team"] == away_team].iloc[0]
         
@@ -312,14 +312,14 @@ if home_team != away_team:
         # DASHBOARD PRESENTATION LAYOUT
         # ==========================================
         st.markdown("---")
-        st.header(f"🦅 Analytics Result: {assigned_winner} Projected Winner")
-        st.metric("Model Algorithmic Certainty Rating", f"{confidence_value:.2f}%")
+        st.header(f"🦅 Analytics Result: {assigned_winner}  Winner")
+        st.metric("Model Algorithmic Rating", f"{confidence_value:.2f}%")
         
         st.subheader("📋 Core Scoreboard Allocation Matrix")
         scoreboard_df = pd.DataFrame({
             "Team Lineup Configuration": [f"{home_team} [HOME]", f"{away_team} [AWAY]"],
             "First Half Score": [half_score_home, half_score_away],
-            "Final Simulated Score": [final_score_home, final_score_away]
+            "Final Score": [final_score_home, final_score_away]
         })
         st.table(scoreboard_df.set_index("Team Lineup Configuration"))
         
