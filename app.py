@@ -6,8 +6,8 @@ import numpy as np
 # 1. CORE SYSTEM INITIALIZATION
 # ==========================================
 st.set_page_config(page_title="MiHoops High-Fidelity Engine", page_icon="🏀", layout="wide")
-st.title("🏀 MiHoops Precision Analytics Suite")
-st.markdown("### 50/50 Dual-Horizon Form Blending & Advanced Metric Simulator")
+st.title("🏀MiHoops")
+st.markdown("###Advanced Metric Simulator")
 st.markdown("---")
 
 # Global League Registry
@@ -76,7 +76,7 @@ selected_league = st.sidebar.selectbox("Select Target Competition Registry", lis
 
 processed_stats = generate_dual_horizon_dataset(selected_league)
 
-st.subheader("⚙️ Matchup Design Engine")
+st.subheader("⚙️ Matchup Engine")
 col1, col2 = st.columns(2)
 with col1:
     home_team = st.selectbox("Designate Home Venue Unit", processed_stats["Team"].unique(), index=0)
@@ -84,7 +84,7 @@ with col2:
     away_team = st.selectbox("Designate Road Competing Unit", processed_stats["Team"].unique(), index=1)
 
 if home_team != away_team:
-    if st.button("Execute High-Fidelity Form-Blended Simulation", type="primary"):
+    if st.button("Execute", type="primary"):
         home_profile = processed_stats[processed_stats["Team"] == home_team].iloc[0]
         away_profile = processed_stats[processed_stats["Team"] == away_team].iloc[0]
         
@@ -132,14 +132,14 @@ if home_team != away_team:
         
         # Display Results Layout
         st.markdown("---")
-        st.header(f"🦅 Analytics Result: {assigned_winner} Projected Winner")
-        st.metric("Model Algorithmic Certainty Rating", f"{confidence_value:.2f}%")
+        st.header(f"🦅 Analytics Result: {assigned_winner} Winner")
+        st.metric("Model Algorithmic Rating", f"{confidence_value:.2f}%")
         
         st.subheader("📋 Core Scoreboard Allocation Matrix")
         scoreboard_df = pd.DataFrame({
             "Team Lineup Configuration": [f"{home_team} [HOME]", f"{away_team} [AWAY]"],
             "First Half Score": [half_score_home, half_score_away],
-            "Final Simulated Score": [final_score_home, final_score_away]
+            "Final Score": [final_score_home, final_score_away]
         })
         st.table(scoreboard_df.set_index("Team Lineup Configuration"))
         
