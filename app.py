@@ -7,7 +7,7 @@ import numpy as np
 # ==========================================
 st.set_page_config(page_title="MiHoops Analytics Pro", page_icon="🏀", layout="wide")
 st.title("🏀 MiHoops")
-st.markdown("Advanced Basketball Prediction Engine)
+st.markdown("Advanced Basketball Prediction Engine")
 st.markdown("---")
 
 # Comprehensive Global League Baselines (15 Leagues Complete with Correct Team Registries)
