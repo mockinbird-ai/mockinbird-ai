@@ -4,37 +4,14 @@ import numpy as np
 
 # 1. Setup Page configuration
 st.set_page_config(page_title="MiHoops Dashboard", page_icon="🏀", layout="wide")
-st.title(" MiHoops🏀")
-st.markdown("Automated predictive analysis using official global basketball standing hierarchies.")
+st.title("MiHoops🏀")
+st.markdown("Automated predictive analysis using advanced efficiency ratings and pace modeling.")
 st.markdown("---")
 
 # 2. Hardcoded Solid Data Registry
 def fetch_complete_league_data(league_selection):
-    # ==================== WNBA REGISTRY (15 TEAMS - 2026 UPDATED) ====================
-    if league_selection == "WNBA":
-        return pd.DataFrame({
-            "Team": [
-                "New York Liberty", "Las Vegas Aces", "Minnesota Lynx", "Connecticut Sun", 
-                "Seattle Storm", "Dallas Wings", "Atlanta Dream", "Indiana Fever", 
-                "Chicago Sky", "Phoenix Mercury", "Los Angeles Sparks", "Washington Mystics",
-                "Golden State Valkyries", "Toronto Tempo", "Portland Fire"
-            ],
-            "GP": [12]*15, 
-            "PTS": [88.5, 89.2, 87.4, 80.2, 83.9, 84.1, 81.6, 82.3, 79.8, 81.2, 78.5, 76.9, 81.0, 82.5, 79.4],
-            "Opp_PTS": [80.1, 81.3, 77.2, 75.4, 79.0, 85.6, 82.1, 84.7, 81.5, 84.9, 84.2, 85.1, 81.8, 83.1, 83.9],
-            "FGA": [65.0, 66.2, 64.1, 62.4, 65.5, 66.9, 64.8, 65.1, 64.0, 65.3, 63.8, 63.2, 64.5, 64.2, 63.9], 
-            "FTA": [22.2, 23.5, 18.1, 20.4, 17.9, 19.5, 18.8, 19.1, 20.2, 19.8, 18.5, 17.4, 19.0, 18.6, 18.1], 
-            "ORB": [7.6, 6.8, 8.2, 8.9, 9.1, 10.2, 8.5, 7.9, 9.6, 7.2, 8.1, 7.4, 8.3, 8.0, 8.2], 
-            "TOV": [14.9, 12.5, 13.8, 14.1, 13.2, 14.5, 15.2, 14.0, 14.8, 13.9, 15.6, 14.3, 14.2, 14.6, 14.9],
-            "Opp_FGA": [64.2, 65.1, 63.5, 61.8, 64.0, 65.8, 64.2, 66.4, 63.1, 66.1, 64.9, 63.7, 64.0, 64.9, 64.3], 
-            "Opp_FTA": [18.1, 18.5, 16.2, 18.0, 17.2, 21.4, 19.2, 17.5, 19.5, 19.1, 19.8, 18.9, 18.4, 18.9, 18.2], 
-            "Opp_ORB": [8.5, 8.2, 7.9, 8.1, 8.8, 9.5, 9.1, 8.7, 9.2, 8.9, 9.0, 8.6, 8.7, 8.9, 9.0], 
-            "Opp_TOV": [15.1, 14.2, 16.0, 14.9, 14.5, 13.1, 13.8, 12.9, 13.5, 13.2, 13.0, 12.8, 14.0, 13.7, 13.4], 
-            "MIN": [40.0]*15
-        })
-
     # ==================== NBA REGISTRY (30 TEAMS) ====================
-    elif league_selection == "NBA":
+    if league_selection == "NBA":
         return pd.DataFrame({
             "Team": [
                 "Boston Celtics", "Oklahoma City Thunder", "Denver Nuggets", "Minnesota Timberwolves", 
@@ -57,6 +34,28 @@ def fetch_complete_league_data(league_selection):
             "Opp_ORB": [10.0, 11.5, 9.8, 9.5, 10.4, 10.1, 9.3, 10.2, 10.5, 9.7, 10.5, 10.3, 10.2, 9.8, 10.1, 10.2, 9.8, 10.1, 9.6, 10.9, 11.1, 10.5, 11.3, 10.8, 11.2, 11.0, 11.1, 10.8, 10.4, 10.5],
             "Opp_TOV": [12.0, 15.2, 12.2, 13.0, 13.1, 11.8, 13.2, 13.1, 13.0, 13.5, 13.9, 13.1, 14.0, 13.6, 14.7, 13.8, 14.1, 13.7, 14.0, 11.8, 12.3, 13.1, 13.7, 15.0, 13.5, 13.2, 13.6, 14.2, 12.2, 13.0],
             "MIN": [48.0]*30
+        })
+
+    # ==================== WNBA REGISTRY (12 TEAMS) ====================
+    elif league_selection == "WNBA":
+        return pd.DataFrame({
+            "Team": [
+                "New York Liberty", "Las Vegas Aces", "Minnesota Lynx", "Connecticut Sun", 
+                "Seattle Storm", "Dallas Wings", "Atlanta Dream", "Indiana Fever", 
+                "Chicago Sky", "Phoenix Mercury", "Los Angeles Sparks", "Washington Mystics"
+            ],
+            "GP": [40]*12, 
+            "PTS": [88.5, 89.2, 87.4, 80.2, 83.9, 84.1, 81.6, 82.3, 79.8, 81.2, 78.5, 76.9],
+            "Opp_PTS": [80.1, 81.3, 77.2, 75.4, 79.0, 85.6, 82.1, 84.7, 81.5, 84.9, 84.2, 85.1],
+            "FGA": [65.0, 66.2, 64.1, 62.4, 65.5, 66.9, 64.8, 65.1, 64.0, 65.3, 63.8, 63.2], 
+            "FTA": [22.2, 23.5, 18.1, 20.4, 17.9, 19.5, 18.8, 19.1, 20.2, 19.8, 18.5, 17.4], 
+            "ORB": [7.6, 6.8, 8.2, 8.9, 9.1, 10.2, 8.5, 7.9, 9.6, 7.2, 8.1, 7.4], 
+            "TOV": [14.9, 12.5, 13.8, 14.1, 13.2, 14.5, 15.2, 14.0, 14.8, 13.9, 15.6, 14.3],
+            "Opp_FGA": [64.2, 65.1, 63.5, 61.8, 64.0, 65.8, 64.2, 66.4, 63.1, 66.1, 64.9, 63.7], 
+            "Opp_FTA": [18.1, 18.5, 16.2, 18.0, 17.2, 21.4, 19.2, 17.5, 19.5, 19.1, 19.8, 18.9], 
+            "Opp_ORB": [8.5, 8.2, 7.9, 8.1, 8.8, 9.5, 9.1, 8.7, 9.2, 8.9, 9.0, 8.6], 
+            "Opp_TOV": [15.1, 14.2, 16.0, 14.9, 14.5, 13.1, 13.8, 12.9, 13.5, 13.2, 13.0, 12.8], 
+            "MIN": [40.0]*12
         })
 
     # ==================== SPAIN: LIGA ACB (18 TEAMS) ====================
@@ -258,7 +257,7 @@ def calculate_advanced_stats(df, league):
 selected_league = st.sidebar.selectbox(
     "Select League Registry", 
     [
-        "WNBA", "NBA", "Spain: Liga ACB", "France: LNB Élite", "Germany: easyCredit BBL", 
+        "NBA", "WNBA", "Spain: Liga ACB", "France: LNB Élite", "Germany: easyCredit BBL", 
         "Türkiye: BSL", "Austria: Superliga", "Czech Republic: NBL", "Puerto Rico: BSN", 
         "New Zealand: NBL", "Canada: CEBL", "Italy: Lega Basket Serie A", "Mexico: LNBP", 
         "Portugal: LPB", "Croatia: Premijer Liga"
@@ -268,9 +267,9 @@ selected_league = st.sidebar.selectbox(
 raw_data = fetch_complete_league_data(selected_league)
 processed_stats = calculate_advanced_stats(raw_data, selected_league)
 
-# KEEPING DENSE DATA HIDDEN AS INSTRUCTED BY 1000635650.jpg
+# Large diagnostic data table block explicitly bypassed here to align with screen requests
 
-st.subheader("🔮 Predictive Simulation Engine")
+st.subheader("🔮 Simulation Engine (Deep Advanced Stats Model)")
 col1, col2 = st.columns(2)
 with col1: 
     team_a = st.selectbox("Team A (Home)", processed_stats["Team"].unique(), index=0)
@@ -278,28 +277,33 @@ with col2:
     team_b = st.selectbox("Team B (Away)", processed_stats["Team"].unique(), index=1)
 
 if team_a != team_b:
-    if st.button("Execute Deep Analytical Prediction", type="primary"):
+    if st.button("Run Advanced Matchup Simulation", type="primary"):
         sa = processed_stats[processed_stats["Team"] == team_a].iloc[0]
         sb = processed_stats[processed_stats["Team"] == team_b].iloc[0]
         
-        # Advanced math formulation
+        # Advanced math pace calculation
         league_pace = processed_stats["Pace"].mean()
         projected_possessions = (sa["Pace"] * sb["Pace"]) / league_pace
         
+        # Calculate expected efficiency adjustments
         team_a_exp_off = (sa["Offensive_Rating"] + sb["Defensive_Rating"]) / 2
         team_b_exp_off = (sb["Offensive_Rating"] + sa["Defensive_Rating"]) / 2
         
         raw_final_a = (team_a_exp_off * projected_possessions) / 100
         raw_final_b = (team_b_exp_off * projected_possessions) / 100
         
-        # Regular home environment adjustments
-        raw_final_a += 2.0 if selected_league == "WNBA" else 2.5
+        # Apply structured home court advantage weight
+        raw_final_a += 3.5 
         
         final_score_a = int(np.round(raw_final_a))
         final_score_b = int(np.round(raw_final_b))
         
-        # Algorithmic First Half breakdown
+        # Dynamic 1st Half Breakdowns using performance variance distributions
         half_score_a = int(np.round(final_score_a * np.random.uniform(0.47, 0.51)))
         half_score_b = int(np.round(final_score_b * np.random.uniform(0.47, 0.51)))
         
-        diff = sa["Net_Rating"] - sb["Net_
+        diff = sa["Net_Rating"] - sb["Net_Rating"] + 2.5
+        prob_a = 1 / (1 + np.exp(-0.065 * diff))
+        
+        winner = team_a if final_score_a > final_score_b else team_b
+        conf = m
