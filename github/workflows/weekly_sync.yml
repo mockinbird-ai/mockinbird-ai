@@ -1,0 +1,36 @@
+name: Automated Weekly Advanced Stats Update
+
+on:
+  schedule:
+    # Triggers every Sunday morning at 00:00 UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch: # Allows you to force-trigger an update manually via GitHub UI
+
+jobs:
+  update-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Initialize Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Project Dependencies
+        run: |
+          pip install pandas numpy
+
+      - name: Execute Live Data Sync Script
+        run: python update_stats.py
+
+      - name: Commit and Push Updated Data File
+        run: |
+          git config --global user.name "MiHoops Bot"
+          git config --global user.email "bot@mihoops.analytics"
+          git add data/stats.csv
+          git diff-index --quiet HEAD || git commit -m "Automation Sync: Weekly advanced stats refresh [skip ci]"
+          git push
+          
