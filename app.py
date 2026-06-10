@@ -6,8 +6,8 @@ import numpy as np
 # 1. SYSTEM CONFIGURATION & INITIALIZATION
 # ==========================================
 st.set_page_config(page_title="MiHoops Analytics Pro", page_icon="🏀", layout="wide")
-st.title("🏀 MiHoops Precision Analytics Suite")
-st.markdown("### 50/50 Horizon Form Blending Framework | Conditional 3.5 Score HCA Engine")
+st.title("🏀MiHoops")
+st.markdown("Basketball Prediction Engine")
 st.markdown("---")
 
 # Global Baseline Rule
@@ -15,7 +15,7 @@ GLOBAL_HCA_POINTS = 3.5
 
 LEAGUE_REGISTRY = {
     "NBA": {"min": 48.0, "pts": 114.2, "pace": 98.8, "teams": ["Boston Celtics", "Oklahoma City Thunder", "Denver Nuggets", "Minnesota Timberwolves", "Dallas Mavericks", "Milwaukee Bucks", "New York Knicks", "Los Angeles Lakers", "Golden State Warriors", "Miami Heat", "Philadelphia 76ers", "Phoenix Suns", "Indiana Pacers", "Cleveland Cavaliers", "Orlando Magic", "Sacramento Kings", "New Orleans Pelicans", "Houston Rockets", "Chicago Bulls", "Atlanta Hawks", "Brooklyn Nets", "Utah Jazz", "Toronto Raptors", "Memphis Grizzlies", "San Antonio Spurs", "Portland Trail Blazers", "Charlotte Hornets", "Washington Wizards", "Detroit Pistons", "Los Angeles Clippers"]},
-    "WNBA": {"min": 40.0, "pts": 82.8, "pace": 80.5, "teams": ["New York Liberty", "Las Vegas Aces", "Minnesota Lynx", "Connecticut Sun", "Seattle Storm", "Dallas Wings", "Atlanta Dream", "Indiana Fever", "Chicago Sky", "Phoenix Mercury", "Los Angeles Sparks", "Washington Mystics"]},
+    "WNBA": {"min": 40.0, "pts": 82.8, "pace": 80.5, "hca_ortg": 2.15, "teams": ["New York Liberty", "Golden State Valkyries", "Toronto Tempo", "Portland Fire", "Las Vegas Aces", "Minnesota Lynx", "Connecticut Sun", "Seattle Storm", "Dallas Wings", "Atlanta Dream", "Indiana Fever", "Chicago Sky", "Phoenix Mercury", "Los Angeles Sparks", "Washington Mystics"]},
     "Spain: Liga ACB": {"min": 40.0, "pts": 83.5, "pace": 76.4, "teams": ["Real Madrid", "FC Barcelona", "Unicaja Málaga", "Valencia Basket", "Saski Baskonia", "UCAM Murcia", "Gran Canaria", "Joventut Badalona", "Canarias (Tenerife)", "Bàsquet Manresa", "Bilbao Basket", "Bàsquet Girona", "Basket Zaragoza", "MoraBanc Andorra", "CB Breogán", "Fundación CB Granada", "Leyma Coruña", "Força Lleida"]},
     "France: LNB Élite": {"min": 40.0, "pts": 80.9, "pace": 75.2, "teams": ["AS Monaco", "Paris Basketball", "LDLC ASVEL", "JL Bourg", "Nanterre 92", "Cholet Basket", "Le Mans Sarthe", "SIG Strasbourg", "Saint-Quentin", "SLUC Nancy", "JDA Dijon", "Limoges CSP", "ESSM Le Portel", "Gravelines-Dunkerque", "Élan Chalon", "Stade Rochelais"]},
     "Germany: easyCredit BBL": {"min": 40.0, "pts": 84.1, "pace": 77.8, "teams": ["Bayern Munich", "Alba Berlin", "Ratiopharm Ulm", "Telekom Baskets Bonn", "Würzburg Baskets", "Niners Chemnitz", "Rasta Vechta", "MHP Riesen Ludwigsburg", "EWE Baskets Oldenburg", "Bamberg Baskets", "Löwen Braunschweig", "Veolia Towers Hamburg", "Syntainics MBC", "MLP Academics Heidelberg", "Rostock Seawolves", "Skyliners Frankfurt", "BG Göttingen", "Karlsruhe Lions"]},
@@ -66,15 +66,15 @@ def generate_dual_horizon_dataset(league_selection):
 selected_league = st.sidebar.selectbox("Select Target Competition Registry", list(LEAGUE_REGISTRY.keys()))
 processed_stats = generate_dual_horizon_dataset(selected_league)
 
-st.subheader("⚙️ Matchup Design Engine")
+st.subheader("⚙️ Matchup Center")
 col1, col2 = st.columns(2)
 with col1:
-    home_team = st.selectbox("Designate Home Venue Unit", processed_stats["Team"].unique(), index=0)
+    home_team = st.selectbox("Home Team", processed_stats["Team"].unique(), index=0)
 with col2:
-    away_team = st.selectbox("Designate Road Competing Unit", processed_stats["Team"].unique(), index=1)
+    away_team = st.selectbox("Away Team ", processed_stats["Team"].unique(), index=1)
 
 if home_team != away_team:
-    if st.button("Execute Form-Blended Simulation Matchup", type="primary"):
+    if st.button("Execute", type="primary"):
         home_profile = processed_stats[processed_stats["Team"] == home_team].iloc[0]
         away_profile = processed_stats[processed_stats["Team"] == away_team].iloc[0]
         
@@ -130,14 +130,14 @@ if home_team != away_team:
         # DASHBOARD PRESENTATION ARRAYS
         # ==========================================
         st.markdown("---")
-        st.header(f"🦅 Analytics Result: {assigned_winner} Projected Winner")
-        st.metric("Model Algorithmic Certainty Rating", f"{confidence_value:.2f}%")
+        st.header(f"🦅 Analytics Result: {assigned_winner} Match Winner")
+        st.metric("Model Algorithmic Rating", f"{confidence_value:.2f}%")
         
         st.subheader("📋 Core Scoreboard Allocation Matrix")
         scoreboard_df = pd.DataFrame({
             "Team Lineup Configuration": [f"{home_team} [HOME]", f"{away_team} [AWAY]"],
             "First Half Score": [half_score_home, half_score_away],
-            "Final Simulated Score": [final_score_home, final_score_away]
+            "Final Score": [final_score_home, final_score_away]
         })
         st.table(scoreboard_df.set_index("Team Lineup Configuration"))
         
