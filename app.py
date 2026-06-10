@@ -11,7 +11,7 @@ st.markdown("Basketball Prediction Engine")
 st.markdown("---")
 
 # Global Baseline Rule
-GLOBAL_HCA_POINTS = 3.5
+GLOBAL_HCA_POINTS = 2.5
 
 LEAGUE_REGISTRY = {
     "NBA": {"min": 48.0, "pts": 114.2, "pace": 98.8, "teams": ["Boston Celtics", "Oklahoma City Thunder", "Denver Nuggets", "Minnesota Timberwolves", "Dallas Mavericks", "Milwaukee Bucks", "New York Knicks", "Los Angeles Lakers", "Golden State Warriors", "Miami Heat", "Philadelphia 76ers", "Phoenix Suns", "Indiana Pacers", "Cleveland Cavaliers", "Orlando Magic", "Sacramento Kings", "New Orleans Pelicans", "Houston Rockets", "Chicago Bulls", "Atlanta Hawks", "Brooklyn Nets", "Utah Jazz", "Toronto Raptors", "Memphis Grizzlies", "San Antonio Spurs", "Portland Trail Blazers", "Charlotte Hornets", "Washington Wizards", "Detroit Pistons", "Los Angeles Clippers"]},
