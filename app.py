@@ -267,8 +267,6 @@ selected_league = st.sidebar.selectbox(
 raw_data = fetch_complete_league_data(selected_league)
 processed_stats = calculate_advanced_stats(raw_data, selected_league)
 
-# Large diagnostic data table block explicitly bypassed here to align with screen requests
-
 st.subheader("🔮 Simulation Engine (Deep Advanced Stats Model)")
 col1, col2 = st.columns(2)
 with col1: 
@@ -293,7 +291,7 @@ if team_a != team_b:
         raw_final_b = (team_b_exp_off * projected_possessions) / 100
         
         # Apply structured home court advantage weight
-        raw_final_a += 3.5 
+        raw_final_a += 2.5 
         
         final_score_a = int(np.round(raw_final_a))
         final_score_b = int(np.round(raw_final_b))
@@ -306,4 +304,7 @@ if team_a != team_b:
         prob_a = 1 / (1 + np.exp(-0.065 * diff))
         
         winner = team_a if final_score_a > final_score_b else team_b
-        conf = m
+        conf = max(prob_a, 1 - prob_a) * 100
+        
+        st.markdown("---")
+        st.header(f"🦅 Pred
