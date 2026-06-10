@@ -3,81 +3,109 @@ import pandas as pd
 import numpy as np
 
 # ==========================================
-# 1. PAGE SETUP & DATA STRUCTURE
+# 1. GLOBAL LEAGUE CONFIGURATION REGISTRY
 # ==========================================
-st.set_page_config(page_title="MiHoops Analytics Pro", page_icon="🏀", layout="wide")
-st.title("🏀 MiHoops")
-st.markdown("Advanced Basketball Prediction Engine")
+st.set_page_config(page_title="MiHoops High-Fidelity Simulator", page_icon="🏀", layout="wide")
+st.title("🏀 MiHoops Precision Analytics Suite")
+st.markdown("### Tier-Anchored Performance Simulator | 50-50 Analytical Horizon Splitting")
 st.markdown("---")
 
-# Comprehensive Global League Baselines (15 Leagues Complete with Correct Team Registries)
+# Comprehensive Global League Database grounded in true realistic capability profiles
 LEAGUE_REGISTRY = {
-    "NBA": {"min": 48.0, "pts": 114.2, "pace": 98.8, "hca": 2.40, "teams": ["Boston Celtics", "Oklahoma City Thunder", "Denver Nuggets", "Minnesota Timberwolves", "Dallas Mavericks", "Milwaukee Bucks", "New York Knicks", "Los Angeles Lakers", "Golden State Warriors", "Miami Heat", "Philadelphia 76ers", "Phoenix Suns", "Indiana Pacers", "Cleveland Cavaliers", "Orlando Magic", "Sacramento Kings", "New Orleans Pelicans", "Houston Rockets", "Chicago Bulls", "Atlanta Hawks", "Brooklyn Nets", "Utah Jazz", "Toronto Raptors", "Memphis Grizzlies", "San Antonio Spurs", "Portland Trail Blazers", "Charlotte Hornets", "Washington Wizards", "Detroit Pistons", "Los Angeles Clippers"]},
-    "WNBA": {"min": 40.0, "pts": 82.8, "pace": 80.5, "hca": 2.10, "teams": ["New York Liberty", "Las Vegas Aces", "Minnesota Lynx", "Connecticut Sun", "Seattle Storm", "Dallas Wings", "Atlanta Dream", "Indiana Fever", "Chicago Sky", "Phoenix Mercury", "Los Angeles Sparks", "Washington Mystics"]},
-    "Spain: Liga ACB": {"min": 40.0, "pts": 83.5, "pace": 76.4, "hca": 2.85, "teams": ["Real Madrid", "FC Barcelona", "Unicaja Málaga", "Valencia Basket", "Saski Baskonia", "UCAM Murcia", "Gran Canaria", "Joventut Badalona", "Canarias (Tenerife)", "Bàsquet Manresa", "Bilbao Basket", "Bàsquet Girona", "Basket Zaragoza", "MoraBanc Andorra", "CB Breogán", "Fundación CB Granada", "Leyma Coruña", "Força Lleida"]},
-    "France: LNB Élite": {"min": 40.0, "pts": 80.9, "pace": 75.2, "hca": 2.60, "teams": ["AS Monaco", "Paris Basketball", "LDLC ASVEL", "JL Bourg", "Nanterre 92", "Cholet Basket", "Le Mans Sarthe", "SIG Strasbourg", "Saint-Quentin", "SLUC Nancy", "JDA Dijon", "Limoges CSP", "ESSM Le Portel", "Gravelines-Dunkerque", "Élan Chalon", "Stade Rochelais"]},
-    "Germany: easyCredit BBL": {"min": 40.0, "pts": 84.1, "pace": 77.8, "hca": 2.50, "teams": ["Bayern Munich", "Alba Berlin", "Ratiopharm Ulm", "Telekom Baskets Bonn", "Würzburg Baskets", "Niners Chemnitz", "Rasta Vechta", "MHP Riesen Ludwigsburg", "EWE Baskets Oldenburg", "Bamberg Baskets", "Löwen Braunschweig", "Veolia Towers Hamburg", "Syntainics MBC", "MLP Academics Heidelberg", "Rostock Seawolves", "Skyliners Frankfurt", "BG Göttingen", "Karlsruhe Lions"]},
-    "Türkiye: BSL": {"min": 40.0, "pts": 82.3, "pace": 76.6, "hca": 3.10, "teams": ["Anadolu Efes", "Fenerbahçe Beko", "Beşiktaş", "Pınar Karşıyaka", "Galatasaray", "Türk Telekom", "Tofaş", "Bahçeşehir Koleji", "Petkim Spor", "Bursaspor Info Yatırım", "Manisa Basket", "Büyükçekmece Basketbol", "Merkezefendi Belediyesi", "Mersin MSK", "Yalovaspor", "Safiport Erokspor"]},
-    "Austria: Superliga": {"min": 40.0, "pts": 79.1, "pace": 74.2, "hca": 2.30, "teams": ["Swans Gmunden", "Flyers Wels", "Klosterneuburg Dukes", "UBSC Graz", "BC Vienna", "Oberwart Gunners", "Arkadia Traiskirchen Lions", "SKN St. Pölten", "Kapfenberg Bulls", "Eisenstadt Warriors"]},
-    "Czech Republic: NBL": {"min": 40.0, "pts": 81.4, "pace": 76.1, "hca": 2.45, "teams": ["ERA Nymburk", "BK Opava", "BK Děčín", "Sluneta Ústí nad Labem", "USK Praha", "Basket Brno", "Beksa Pardubice", "Nova Hut Ostrava", "Sokol Písek", "BC Kolín", "Olomoucko", "Slavia Praha"]},
-    "Puerto Rico: BSN": {"min": 40.0, "pts": 89.5, "pace": 82.1, "hca": 3.40, "teams": ["Capitanes de Arecibo", "Vaqueros de Bayamón", "Gigantes de Carolina", "Mets de Guaynabo", "Piratas de Quebradillas", "Atléticos de San Germán", "Leones de Ponce", "Indios de Mayagüez", "Santeros de Aguada", "Criollos de Caguas", "Osos de Manatí", "Cangrejeros de Santurce"]},
-    "New Zealand: NBL": {"min": 40.0, "pts": 87.2, "pace": 81.8, "hca": 2.20, "teams": ["Canterbury Rams", "Auckland Tuatara", "Wellington Saints", "Taranaki Airs", "Franklin Bulls", "Nelson Giants", "Otago Nuggets", "Whai Tauranga", "Hawke's Bay Hawks", "Southland Sharks", "Manawatu Jets"]},
-    "Canada: CEBL": {"min": 40.0, "pts": 88.0, "pace": 80.9, "hca": 2.15, "teams": ["Niagara River Lions", "Vancouver Bandits", "Edmonton Stingers", "Scarborough Shooting Stars", "Winnipeg Sea Bears", "Calgary Surge", "Ottawa BlackJacks", "Brampton Honey Badgers", "Montreal Alliance", "Saskatchewan Rattlers"]},
-    "Italy: Lega Basket Serie A": {"min": 40.0, "pts": 82.8, "pace": 76.3, "hca": 2.75, "teams": ["Olimpia Milano", "Virtus Bologna", "Reyer Venezia", "Pallacanestro Brescia", "Derthona Basket", "Pallacanestro Reggiana", "Aquila Basket Trento", "Dinamo Sassari", "Pallacanestro Varese", "Napoli Basket", "Universo Treviso Basket", "Scafati Basket", "Vanoli Cremona", "Pistoia Basket", "Trapani Shark", "Pallacanestro Trieste"]},
-    "Mexico: LNBP": {"min": 40.0, "pts": 85.9, "pace": 79.1, "hca": 2.90, "teams": ["Fuerza Regia de Monterrey", "Astros de Jalisco", "Halcones de Xalapa", "Panteras de Aguascalientes", "Dorados de Chihuahua", "Soles de Mexicali", "Mineros de Zacatecas", "Plateros de Fresnillo", "El Calor de Cancún", "Diablos Rojos del México", "Santos de San Luis", "Abejas de León", "Correcaminos UAT Victoria", "Freseros de Irapuato"]},
-    "Portugal: LPB": {"min": 40.0, "pts": 80.2, "pace": 74.8, "hca": 2.40, "teams": ["S.L. Benfica", "FC Porto", "Sporting CP", "UD Oliveirense", "Ovarense Basquetebol", "Vitória SC", "Imortal BC", "Esgueira Basket", "CD Póvoa", "SC Lusitânia", "Galitos Barreiro", "CA Queluz"]},
-    "Croatia: Premijer Liga": {"min": 40.0, "pts": 78.4, "pace": 73.5, "hca": 2.55, "teams": ["KK Zadar", "KK Split", "KK Cibona Zagreb", "KK Cedevita Junior", "KK Dinamo Zagreb", "GKK Šibenka", "KK Zabok", "KK Dubrovnik", "KK Alkar", "KK DepoLink Škrljevo", "KK Bosco Zagreb", "KK Vrijednosnice Osijek"]}
+    "NBA": {
+        "pace": 98.8, "hca": 0.0,  # Explicitly excluded HCA per instructions
+        "team_tiers": {
+            "Boston Celtics": 8.5, "Oklahoma City Thunder": 7.5, "Denver Nuggets": 6.5, "Minnesota Timberwolves": 6.0, 
+            "New York Knicks": 5.5, "Dallas Mavericks": 5.0, "Philadelphia 76ers": 4.5, "Milwaukee Bucks": 4.0, 
+            "Phoenix Suns": 3.5, "Cleveland Cavaliers": 3.0, "Indiana Pacers": 2.5, "Los Angeles Lakers": 2.0, 
+            "Golden State Warriors": 1.5, "Sacramento Kings": 1.0, "New Orleans Pelicans": 1.5, "Miami Heat": 0.5, 
+            "Orlando Magic": 0.5, "Houston Rockets": 0.0, "Los Angeles Clippers": -0.5, "Sacramento Kings": 0.5,
+            "Chicago Bulls": -2.0, "Atlanta Hawks": -2.5, "Brooklyn Nets": -4.0, "Toronto Raptors": -4.5, 
+            "Memphis Grizzlies": -1.0, "Utah Jazz": -5.0, "San Antonio Spurs": -2.0, "Charlotte Hornets": -5.5, 
+            "Portland Trail Blazers": -6.0, "Washington Wizards": -7.5, "Detroit Pistons": -6.5
+        }
+    },
+    "WNBA": {
+        "pace": 80.5, "hca": 3.5,  # Active HCA logic for all remaining 14 registries
+        "team_tiers": {
+            "Minnesota Lynx": 7.0, "Las Vegas Aces": 6.5, "New York Liberty": 6.0, "Atlanta Dream": 4.0, 
+            "Dallas Wings": 3.5, "Toronto Tempo": 2.0, "Golden State Valkyries": 1.5, "Indiana Fever": 1.0, 
+            "Portland Fire": 0.0, "Los Angeles Sparks": -1.0, "Washington Mystics": -2.0, "Chicago Sky": -2.5, 
+            "Phoenix Mercury": -3.0, "Seattle Storm": -5.5, "Connecticut Sun": -7.0
+        }
+    },
+    "Spain: Liga ACB": {
+        "pace": 76.4, "hca": 3.5,
+        "team_tiers": {
+            "Real Madrid": 8.0, "FC Barcelona": 7.0, "Unicaja Málaga": 6.5, "Valencia Basket": 4.0, 
+            "Saski Baskonia": 3.5, "UCAM Murcia": 2.5, "Gran Canaria": 2.0, "Joventut Badalona": 1.0, 
+            "Canarias (Tenerife)": 1.5, "Bàsquet Manresa": 0.0, "Bilbao Basket": -1.0, "Bàsquet Girona": -2.5, 
+            "Basket Zaragoza": -2.0, "MoraBanc Andorra": -1.5, "CB Breogán": -4.0, "Fundación CB Granada": -4.5, 
+            "Leyma Coruña": -5.0, "Força Lleida": -5.5
+        }
+    },
+    "France: LNB Élite": {"pace": 75.2, "hca": 3.5, "team_tiers": {"AS Monaco": 8.5, "Paris Basketball": 7.0, "LDLC ASVEL": 6.0, "JL Bourg": 4.5, "Nanterre 92": 2.0, "Cholet Basket": 1.5, "Le Mans Sarthe": 0.0, "SIG Strasbourg": 0.5, "Saint-Quentin": -1.0, "SLUC Nancy": -1.5, "JDA Dijon": -0.5, "Limoges CSP": -2.5, "ESSM Le Portel": -3.5, "Gravelines-Dunkerque": -3.0, "Élan Chalon": -4.5, "Stade Rochelais": -6.0}},
+    "Germany: easyCredit BBL": {"pace": 77.8, "hca": 3.5, "team_tiers": {"Bayern Munich": 8.0, "Alba Berlin": 5.5, "Ratiopharm Ulm": 6.0, "Telekom Baskets Bonn": 4.0, "Würzburg Baskets": 3.5, "Niners Chemnitz": 4.5, "Rasta Vechta": 1.5, "MHP Riesen Ludwigsburg": 1.0, "EWE Baskets Oldenburg": 2.0, "Bamberg Baskets": -0.5, "Löwen Braunschweig": -1.5, "Veolia Towers Hamburg": -2.0, "Syntainics MBC": -3.5, "MLP Academics Heidelberg": -4.0, "Rostock Seawolves": -4.5, "Skyliners Frankfurt": -5.0, "BG Göttingen": -5.5, "Karlsruhe Lions": -6.5}},
+    "Türkiye: BSL": {"pace": 76.6, "hca": 3.5, "team_tiers": {"Anadolu Efes": 8.5, "Fenerbahçe Beko": 8.0, "Beşiktaş": 5.0, "Pınar Karşıyaka": 4.5, "Galatasaray": 3.0, "Türk Telekom": 2.5, "Tofaş": 1.0, "Bahçeşehir Koleji": 3.5, "Petkim Spor": 0.5, "Bursaspor Info Yatırım": 0.0, "Manisa Basket": -1.5, "Büyükçekmece Basketbol": -2.5, "Merkezefendi Belediyesi": -4.0, "Mersin MSK": -2.0, "Yalovaspor": -5.0, "Safiport Erokspor": -5.5}},
+    "Austria: Superliga": {"pace": 74.2, "hca": 3.5, "team_tiers": {"Swans Gmunden": 6.0, "Flyers Wels": 5.0, "Klosterneuburg Dukes": 4.5, "UBSC Graz": 1.5, "BC Vienna": 2.0, "Oberwart Gunners": 0.0, "Arkadia Traiskirchen Lions": 1.0, "SKN St. Pölten": -2.5, "Kapfenberg Bulls": -1.5, "Eisenstadt Warriors": -5.5}},
+    "Czech Republic: NBL": {"pace": 76.1, "hca": 3.5, "team_tiers": {"ERA Nymburk": 9.0, "BK Opava": 5.0, "BK Děčín": 3.5, "Sluneta Ústí nad Labem": 4.0, "USK Praha": 1.0, "Basket Brno": 0.5, "Beksa Pardubice": -1.0, "Nova Hut Ostrava": -2.5, "Sokol Písek": -2.0, "BC Kolín": -3.0, "Olomoucko": -4.5, "Slavia Praha": -5.0}},
+    "Puerto Rico: BSN": {"pace": 82.1, "hca": 3.5, "team_tiers": {"Capitanes de Arecibo": 5.5, "Vaqueros de Bayamón": 4.0, "Gigantes de Carolina": 5.0, "Mets de Guaynabo": 4.5, "Piratas de Quebradillas": 3.0, "Atléticos de San Germán": 0.5, "Leones de Ponce": -1.0, "Indios de Mayagüez": -1.5, "Santeros de Aguada": 1.0, "Criollos de Caguas": 2.5, "Osos de Manatí": 2.0, "Cangrejeros de Santurce": 0.0}},
+    "New Zealand: NBL": {"pace": 81.8, "hca": 3.5, "team_tiers": {"Canterbury Rams": 6.5, "Auckland Tuatara": 5.5, "Wellington Saints": 5.0, "Taranaki Airs": 4.0, "Franklin Bulls": 3.0, "Nelson Giants": -0.5, "Otago Nuggets": -1.5, "Whai Tauranga": 0.0, "Hawke's Bay Hawks": -2.5, "Southland Sharks": -5.0, "Manawatu Jets": -6.5}},
+    "Canada: CEBL": {"pace": 80.9, "hca": 3.5, "team_tiers": {"Niagara River Lions": 6.0, "Vancouver Bandits": 5.5, "Edmonton Stingers": 4.5, "Scarborough Shooting Stars": 3.5, "Winnipeg Sea Bears": 1.5, "Calgary Surge": 1.0, "Ottawa BlackJacks": -1.5, "Brampton Honey Badgers": -2.5, "Montreal Alliance": -4.0, "Saskatchewan Rattlers": -3.5}},
+    "Italy: Lega Basket Serie A": {"pace": 76.3, "hca": 3.5, "team_tiers": {"Olimpia Milano": 7.5, "Virtus Bologna": 7.0, "Reyer Venezia": 4.5, "Pallacanestro Brescia": 5.0, "Derthona Basket": 3.0, "Pallacanestro Reggiana": 2.0, "Aquila Basket Trento": 2.5, "Dinamo Sassari": 0.5, "Pallacanestro Varese": -1.5, "Napoli Basket": -1.0, "Universo Treviso Basket": -2.0, "Scafati Basket": -2.5, "Vanoli Cremona": -3.0, "Pistoia Basket": -1.5, "Trapani Shark": 3.5, "Pallacanestro Trieste": 1.0}},
+    "Mexico: LNBP": {"pace": 79.1, "hca": 3.5, "team_tiers": {"Fuerza Regia de Monterrey": 6.5, "Astros de Jalisco": 6.0, "Halcones de Xalapa": 5.0, "Panteras de Aguascalientes": 3.0, "Dorados de Chihuahua": 2.5, "Soles de Mexicali": 1.5, "Mineros de Zacatecas": -0.5, "Plateros de Fresnillo": 0.0, "El Calor de Cancún": 1.0, "Diablos Rojos del México": 4.0, "Santos de San Luis": -2.5, "Abejas de León": -4.5, "Correcaminos UAT Victoria": -6.0, "Freseros de Irapuato": -2.0}},
+    "Portugal: LPB": {"pace": 74.8, "hca": 3.5, "team_tiers": {"S.L. Benfica": 7.5, "FC Porto": 7.0, "Sporting CP": 6.0, "UD Oliveirense": 3.5, "Ovarense Basquetebol": 2.0, "Vitória SC": 0.5, "Imortal BC": -1.5, "Esgueira Basket": -2.5, "CD Póvoa": -2.0, "SC Lusitânia": -4.5, "Galitos Barreiro": -3.5, "CA Queluz": -4.0}},
+    "Croatia: Premijer Liga": {"pace": 73.5, "hca": 3.5, "team_tiers": {"KK Zadar": 8.0, "KK Split": 6.5, "KK Cibona Zagreb": 4.5, "KK Cedevita Junior": 4.0, "KK Dinamo Zagreb": 2.0, "GKK Šibenka": -0.5, "KK Zabok": 0.5, "KK Dubrovnik": -1.5, "KK Alkar": -3.0, "KK DepoLink Škrljevo": -4.5, "KK Bosco Zagreb": -7.5, "KK Vrijednosnice Osijek": -4.0}}
 }
 
 # ==========================================
-# 2. ADVANCED DATA GENERATION LAYER
+# 2. SEED ENGINE LAYER (TIER ANCHORING)
 # ==========================================
-def generate_advanced_dataset(league_selection):
+def generate_dual_horizon_dataset(league_selection):
     config = LEAGUE_REGISTRY[league_selection]
-    teams = config["teams"]
+    teams_dict = config["team_tiers"]
     
-    # Generate reproducible stats using a unique seed for each league
-    np.random.seed(sum(ord(c) for c in league_selection))
+    np.random.seed(42 + sum(ord(char) for char in league_selection))
     
     records = []
-    for team in teams:
-        # Full Season Advanced Baselines
-        season_pace = np.random.uniform(config["pace"] - 3, config["pace"] + 3)
-        season_ortg = np.random.uniform(104.0, 116.0)
-        season_drtg = np.random.uniform(104.0, 116.0)
+    for team, net_tier in teams_dict.items():
+        # Anchoring baseline efficiencies on team strength tiering
+        base_efficiency = 111.0
+        s_ortg = base_efficiency + (net_tier / 2.0) + np.random.normal(0.0, 1.0)
+        s_drtg = base_efficiency - (net_tier / 2.0) + np.random.normal(0.0, 1.0)
+        s_pace = np.random.normal(config["pace"], 1.5)
         
-        # Last 10 Games Advanced Trends (Capturing momentum / roster form shifts)
-        l10_pace = season_pace + np.random.uniform(-2.5, 2.5)
-        l10_ortg = season_ortg + np.random.uniform(-6.0, 6.0)
-        l10_drtg = season_drtg + np.random.uniform(-6.0, 6.0)
+        # Short-term performance variance modeling (Last 10 game variance vector)
+        l10_ortg = s_ortg + np.random.normal(0.0, 2.5)
+        l10_drtg = s_drtg + np.random.normal(0.0, 2.5)
+        l10_pace = s_pace + np.random.normal(0.0, 1.2)
         
         records.append({
             "Team": team,
-            "Season_Pace": season_pace, "Season_ORTG": season_ortg, "Season_DRTG": season_drtg,
+            "Season_Pace": s_pace, "Season_ORTG": s_ortg, "Season_DRTG": s_drtg,
             "L10_Pace": l10_pace, "L10_ORTG": l10_ortg, "L10_DRTG": l10_drtg
         })
     return pd.DataFrame(records)
 
 # ==========================================
-# 3. INTERACTIVE MATCHUP INTERFACE
+# 3. RUN INTERACTIVE SCHEDULING UNIT
 # ==========================================
-selected_league = st.sidebar.selectbox("Select Competition Registry", list(LEAGUE_REGISTRY.keys()))
+selected_league = st.sidebar.selectbox("Select Target Competition Registry", list(LEAGUE_REGISTRY.keys()))
+processed_stats = generate_dual_horizon_dataset(selected_league)
 
-processed_stats = generate_advanced_dataset(selected_league)
-
-st.subheader("🤖 Matchup Profiling")
+st.subheader("⚙️ Matchup Design Engine")
 col1, col2 = st.columns(2)
 with col1:
-    home_team = st.selectbox("Home Team", processed_stats["Team"].unique(), index=0)
+    home_team = st.selectbox("Designate Home Venue Unit", processed_stats["Team"].unique(), index=0)
 with col2:
-    away_team = st.selectbox("Away Team", processed_stats["Team"].unique(), index=1)
+    away_team = st.selectbox("Designate Road Competing Unit", processed_stats["Team"].unique(), index=1)
 
 if home_team != away_team:
-    if st.button("Launch", type="primary"):
+    if st.button("Execute Form-Blended Simulation Matchup", type="primary"):
         home_profile = processed_stats[processed_stats["Team"] == home_team].iloc[0]
         away_profile = processed_stats[processed_stats["Team"] == away_team].iloc[0]
         
-        # --- THE 50% SEASON / 50% LAST 10 BLENDING MATRIX ---
+        # Rigorous 50% Season / 50% Last 10 Blending Matrix Execution
         home_blended_pace = (0.50 * home_profile["Season_Pace"]) + (0.50 * home_profile["L10_Pace"])
         home_blended_ortg = (0.50 * home_profile["Season_ORTG"]) + (0.50 * home_profile["L10_ORTG"])
         home_blended_drtg = (0.50 * home_profile["Season_DRTG"]) + (0.50 * home_profile["L10_DRTG"])
@@ -86,67 +114,67 @@ if home_team != away_team:
         away_blended_ortg = (0.50 * away_profile["Season_ORTG"]) + (0.50 * away_profile["L10_ORTG"])
         away_blended_drtg = (0.50 * away_profile["Season_DRTG"]) + (0.50 * away_profile["L10_DRTG"])
         
-        # Calculate Projected Game Pace (Possessions)
-        league_base_pace = LEAGUE_REGISTRY[selected_league]["pace"]
-        match_projected_pace = (home_blended_pace * away_blended_pace) / league_base_pace
+        # Intersecting Projected Pace Calculation
+        league_mean_pace = LEAGUE_REGISTRY[selected_league]["pace"]
+        projected_possessions = (home_blended_pace * away_blended_pace) / league_mean_pace
         
-        # Calculate Crossover Efficiencies including Home Court Advantage (HCA)
-        league_hca = LEAGUE_REGISTRY[selected_league]["hca"]
-        expected_home_ortg = ((home_blended_ortg + away_blended_drtg) / 2) + (league_hca / 2)
-        expected_away_ortg = ((away_blended_ortg + home_blended_drtg) / 2) - (league_hca / 2)
+        # Baseline Cross-Over Efficiency Formulations
+        simulated_home_ortg = (home_blended_ortg + away_blended_drtg) / 2
+        simulated_away_ortg = (away_blended_ortg + home_blended_drtg) / 2
         
-        # Convert Advanced Metrics to Volumetric Point Estimates
-        raw_final_home = (expected_home_ortg * match_projected_pace) / 100
-        raw_final_away = (expected_away_ortg * match_projected_pace) / 100
+        # Standardize expected possession point volume estimates
+        base_final_home = (simulated_home_ortg * projected_possessions) / 100
+        base_final_away = (simulated_away_ortg * projected_possessions) / 100
         
-        final_home = int(np.round(raw_final_home))
-        final_away = int(np.round(raw_final_away))
+        # Enforcing Conditional Home Court Advantage rules
+        applied_hca = LEAGUE_REGISTRY[selected_league]["hca"]
+        calculated_final_home = base_final_home + applied_hca
+        calculated_final_away = base_final_away
         
-        # Generate Realistic First Half Scores using Stochastic Distribution Arrays
+        final_score_home = int(np.round(calculated_final_home))
+        final_score_away = int(np.round(calculated_final_away))
+        
+        # Stochastic breakdown for Halftime splits
         np.random.seed(None)
-        half_distribution_home = np.random.uniform(0.47, 0.50)
-        half_distribution_away = np.random.uniform(0.47, 0.50)
+        hf_home = np.random.uniform(0.472, 0.498)
+        hf_away = np.random.uniform(0.472, 0.498)
         
-        half_home = int(np.round(final_home * half_distribution_home))
-        half_away = int(np.round(final_away * half_distribution_away))
+        half_score_home = int(np.round(final_score_home * hf_home))
+        half_score_away = int(np.round(final_score_away * hf_away))
         
-        # Log-5 Probability Formula for Exact Win/Loss Metrics
-        home_net_rating = home_blended_ortg - home_blended_drtg
-        away_net_rating = away_blended_ortg - away_blended_drtg
-        efficiency_difference = home_net_rating - away_net_rating + league_hca
-        win_prob_home = 1 / (1 + np.exp(-0.075 * efficiency_difference))
+        # Log-5 Regression Distribution modeling for Win Probability
+        home_net = home_blended_ortg - home_blended_drtg
+        away_net = away_blended_ortg - away_blended_drtg
+        efficiency_margin = home_net - away_net + (applied_hca * (100 / projected_possessions))
+        win_probability_home = 1 / (1 + np.exp(-0.078 * efficiency_margin))
         
-        winner_declaration = home_team if final_home > final_away else away_team
-        confidence_percentage = max(win_prob_home, 1 - win_prob_home) * 100
+        assigned_winner = home_team if final_score_home > final_score_away else away_team
+        confidence_value = max(win_probability_home, 1 - win_probability_home) * 100
         
         # ==========================================
-        # 4. DATA PRESENTATION DASHBOARD
+        # DASHBOARD PRESENTATION LAYOUT
         # ==========================================
         st.markdown("---")
-        st.header(f"🦅 Winner: {winner_declaration}")
-        st.metric("Model Algorithmic Rating", f"{confidence_percentage:.2f}%")
+        st.header(f"🦅 Analytics Result: {assigned_winner} Projected Winner")
+        st.metric("Model Algorithmic Certainty Rating", f"{confidence_value:.2f}%")
         
         st.subheader("📋 Core Scoreboard Allocation Matrix")
         scoreboard_df = pd.DataFrame({
-            "Team Lineup": [f"{home_team} [HOME]", f"{away_team} [AWAY]"],
-            "First Half Score": [half_home, half_away],
-            "Final Score": [final_home, final_away]
+            "Team Lineup Configuration": [f"{home_team} [HOME]", f"{away_team} [AWAY]"],
+            "First Half Score": [half_score_home, half_score_away],
+            "Final Simulated Score": [final_score_home, final_score_away]
         })
-        st.table(scoreboard_df.set_index("Team Lineup"))
+        st.table(scoreboard_df.set_index("Team Lineup Configuration"))
         
-        # Diagnostic Analytics Expandable Drawer
-        with st.expander("🔬 View Blended Advanced Stats Diagnostics"):
+        with st.expander("🔬 View Advanced Diagnostics"):
             col_diag1, col_diag2 = st.columns(2)
             with col_diag1:
-                st.markdown(f"**Projected Match Pace:** {match_projected_pace:.2f} possessions")
+                st.markdown(f"**Projected Match Pace:** {projected_possessions:.2f} total possessions")
                 st.markdown(f"**{home_team} Blended ORTG:** {home_blended_ortg:.2f}")
-                st.markdown(f"**{home_team} Blended DRTG:** {home_blended_drtg:.2f}")
-                st.markdown(f"**{home_team} Blended Pace:** {home_blended_pace:.2f}")
+                st.markdown(f"**{home_team} Baseline Score (No HCA):** {base_final_home:.2f}")
             with col_diag2:
-                st.markdown(f"**Selected League Base HCA Weighting:** +{league_hca} PTS")
+                st.markdown(f"**Applied Active Score HCA Bonus:** +{applied_hca} PTS")
                 st.markdown(f"**{away_team} Blended ORTG:** {away_blended_ortg:.2f}")
-                st.markdown(f"**{away_team} Blended DRTG:** {away_blended_drtg:.2f}")
-                st.markdown(f"**{away_team} Blended Pace:** {away_blended_pace:.2f}")
+                st.markdown(f"**{away_team} Baseline Score:** {base_final_away:.2f}")
 else:
     st.warning("Halting Execution: Please make sure separate Home and Away teams are selected.")
-        
