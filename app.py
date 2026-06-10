@@ -15,7 +15,7 @@ FIXED_HCA = 3.5
 
 LEAGUE_REGISTRY = {
     "NBA": {"min": 48.0, "pts": 114.2, "pace": 98.8, "teams": ["Boston Celtics", "Oklahoma City Thunder", "Denver Nuggets", "Minnesota Timberwolves", "Dallas Mavericks", "Milwaukee Bucks", "New York Knicks", "Los Angeles Lakers", "Golden State Warriors", "Miami Heat", "Philadelphia 76ers", "Phoenix Suns", "Indiana Pacers", "Cleveland Cavaliers", "Orlando Magic", "Sacramento Kings", "New Orleans Pelicans", "Houston Rockets", "Chicago Bulls", "Atlanta Hawks", "Brooklyn Nets", "Utah Jazz", "Toronto Raptors", "Memphis Grizzlies", "San Antonio Spurs", "Portland Trail Blazers", "Charlotte Hornets", "Washington Wizards", "Detroit Pistons", "Los Angeles Clippers"]},
-    "WNBA": {"min": 40.0, "pts": 82.8, "pace": 80.5, "teams": ["New York Liberty", "Las Vegas Aces", "Minnesota Lynx", "Connecticut Sun", "Seattle Storm", "Dallas Wings", "Atlanta Dream", "Indiana Fever", "Chicago Sky", "Phoenix Mercury", "Los Angeles Sparks", "Washington Mystics"]},
+    "WNBA": {"min": 40.0, "pts": 82.8, "pace": 80.5, "hca_ortg": 2.15, "teams": ["New York Liberty", "Golden State Valkyries", "Toronto Tempo", "Portland Fire", "Las Vegas Aces", "Minnesota Lynx", "Connecticut Sun", "Seattle Storm", "Dallas Wings", "Atlanta Dream", "Indiana Fever", "Chicago Sky", "Phoenix Mercury", "Los Angeles Sparks", "Washington Mystics"]},
     "Spain: Liga ACB": {"min": 40.0, "pts": 83.5, "pace": 76.4, "teams": ["Real Madrid", "FC Barcelona", "Unicaja Málaga", "Valencia Basket", "Saski Baskonia", "UCAM Murcia", "Gran Canaria", "Joventut Badalona", "Canarias (Tenerife)", "Bàsquet Manresa", "Bilbao Basket", "Bàsquet Girona", "Basket Zaragoza", "MoraBanc Andorra", "CB Breogán", "Fundación CB Granada", "Leyma Coruña", "Força Lleida"]},
     "France: LNB Élite": {"min": 40.0, "pts": 80.9, "pace": 75.2, "teams": ["AS Monaco", "Paris Basketball", "LDLC ASVEL", "JL Bourg", "Nanterre 92", "Cholet Basket", "Le Mans Sarthe", "SIG Strasbourg", "Saint-Quentin", "SLUC Nancy", "JDA Dijon", "Limoges CSP", "ESSM Le Portel", "Gravelines-Dunkerque", "Élan Chalon", "Stade Rochelais"]},
     "Germany: easyCredit BBL": {"min": 40.0, "pts": 84.1, "pace": 77.8, "teams": ["Bayern Munich", "Alba Berlin", "Ratiopharm Ulm", "Telekom Baskets Bonn", "Würzburg Baskets", "Niners Chemnitz", "Rasta Vechta", "MHP Riesen Ludwigsburg", "EWE Baskets Oldenburg", "Bamberg Baskets", "Löwen Braunschweig", "Veolia Towers Hamburg", "Syntainics MBC", "MLP Academics Heidelberg", "Rostock Seawolves", "Skyliners Frankfurt", "BG Göttingen", "Karlsruhe Lions"]},
@@ -126,8 +126,8 @@ if home_team != away_team:
         # DISPLAY USER DASHBOARD LAYOUT
         # ==========================================
         st.markdown("---")
-        st.header(f"🦅 Analytics Result: {assigned_winner} Projected Winner")
-        st.metric("Model Algorithmic Certainty Rating", f"{confidence_value:.2f}%")
+        st.header(f"🦅 Analytics Result: {assigned_winner} Winner")
+        st.metric("Model Algorithmic Rating", f"{confidence_value:.2f}%")
         
         st.subheader("📋 Core Scoreboard Allocation Matrix")
         scoreboard_df = pd.DataFrame({
