@@ -4,7 +4,7 @@ import numpy as np
 
 # 1. Setup Page configuration
 st.set_page_config(page_title="MiHoops Dashboard", page_icon="🏀", layout="wide")
-st.title("MiHoops🏀")
+st.title(" MiHoops🏀")
 st.markdown("Automated predictive analysis using official global basketball standing hierarchies.")
 st.markdown("---")
 
