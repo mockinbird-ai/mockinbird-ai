@@ -36,7 +36,7 @@ def fetch_complete_league_data(league_selection):
             "MIN": [48.0]*30
         })
         
-    # ==================== WNBA REGISTRY (12 ACTIVE) ====================
+    # ==================== WNBA REGISTRY ====================
     elif league_selection == "WNBA":
         return pd.DataFrame({
             "Team": [
@@ -58,90 +58,116 @@ def fetch_complete_league_data(league_selection):
             "MIN": [40.0]*13
         })
 
-    # ==================== SPAIN: LIGA ACB (18 TEAMS) ====================
-    elif league_selection == "Spain: Liga ACB":
+    # ==================== PUERTO RICO: BSN (12 TEAMS) ====================
+    elif league_selection == "Puerto Rico: BSN":
         return pd.DataFrame({
             "Team": [
-                "Real Madrid", "Valencia Basket", "Saski Baskonia", "UCAM Murcia", "FC Barcelona",
-                "Joventut Badalona", "Bilbao Basket", "Canarias (Tenerife)", "Unicaja Málaga", "Bàsquet Manresa",
-                "CB Breogán", "Bàsquet Girona", "San Pablo Burgos", "Força Lleida", "Basket Zaragoza",
-                "MoraBanc Andorra", "Gran Canaria", "Fundación CB Granada"
+                "San German", "Capitanes de Arecibo", "Aguada Santeros", "Indios de Mayaguez",
+                "Leones De Ponce", "Piratas de Quebradillas", "Criollos de Caguas", "Vaqueros de Bayamon",
+                "Cangrejeros", "Gigantes de Carolina", "Mets de Guaynabo", "Osos de Manati"
             ],
-            "GP": [34]*18, "PTS": [92.9, 94.6, 93.4, 91.5, 89.5, 85.4, 84.8, 89.4, 87.5, 86.2, 91.0, 85.6, 89.6, 84.0, 87.1, 87.5, 81.2, 83.7],
-            "Opp_PTS": [85.4, 83.2, 86.7, 84.5, 82.7, 81.3, 86.0, 86.4, 86.9, 90.5, 93.2, 88.9, 92.7, 91.0, 93.4, 93.2, 86.2, 92.7],
-            "FGA": [65.4, 66.1, 65.8, 64.9, 64.0, 62.8, 63.2, 63.9, 62.5, 63.8, 65.0, 62.9, 64.2, 62.4, 63.5, 64.0, 61.2, 63.0],
-            "FTA": [18.2, 19.5, 18.0, 18.8, 17.5, 16.9, 17.1, 18.5, 17.9, 17.2, 18.5, 16.8, 18.0, 17.1, 17.8, 17.4, 16.5, 16.9],
-            "ORB": [9.8, 9.5, 9.2, 9.6, 8.9, 8.5, 9.0, 8.7, 9.1, 9.3, 9.6, 8.8, 9.2, 8.6, 9.1, 9.0, 8.4, 8.7],
-            "TOV": [11.2, 12.1, 11.5, 12.4, 12.2, 12.0, 12.6, 11.8, 12.1, 12.8, 12.5, 13.2, 12.9, 13.5, 13.1, 12.7, 13.3, 13.8],
-            "Opp_FGA": [66.1, 63.8, 65.0, 64.1, 63.0, 61.8, 63.9, 63.2, 61.9, 64.5, 65.4, 63.5, 65.0, 63.2, 64.1, 64.9, 62.1, 64.0],
-            "Opp_FTA": [15.2, 16.1, 15.8, 16.5, 15.8, 16.5, 16.9, 16.8, 16.1, 17.1, 18.2, 17.5, 18.2, 17.9, 18.0, 18.5, 16.9, 18.1],
-            "Opp_ORB": [9.2, 8.7, 9.1, 9.0, 9.1, 9.0, 9.4, 8.9, 8.7, 9.3, 9.5, 9.1, 9.4, 9.2, 9.3, 9.5, 8.9, 9.2],
-            "Opp_TOV": [12.8, 12.9, 12.5, 13.2, 12.7, 12.1, 12.3, 12.5, 12.9, 12.1, 12.4, 12.1, 12.5, 12.0, 12.2, 12.6, 12.1, 11.9],
-            "MIN": [40.0]*18
+            "GP": [36]*12,
+            "PTS": [89.4, 92.5, 87.1, 86.8, 88.0, 85.3, 91.2, 87.5, 88.3, 89.1, 88.6, 91.0],
+            "Opp_PTS": [84.2, 88.1, 89.4, 89.0, 92.4, 89.1, 88.5, 87.9, 86.5, 87.2, 89.3, 94.2],
+            "FGA": [66.4]*12, "FTA": [19.5]*12, "ORB": [9.2]*12, "TOV": [13.1]*12,
+            "Opp_FGA": [65.9]*12, "Opp_FTA": [18.8]*12, "Opp_ORB": [9.0]*12, "Opp_TOV": [12.8]*12,
+            "MIN": [40.0]*12
         })
 
-    # ==================== GERMANY: EASYCREDIT BBL (18 TEAMS) ====================
-    elif league_selection == "Germany: easyCredit BBL":
+    # ==================== NEW ZEALAND: NBL (11 TEAMS) ====================
+    elif league_selection == "New Zealand: NBL":
         return pd.DataFrame({
             "Team": [
-                "Bayern Munich", "Alba Berlin", "Bamberg Baskets", "Telekom Baskets Bonn", "Würzburg Baskets",
-                "Ratiopharm Ulm", "Rasta Vechta", "Gladiators Trier", "Rostock Seawolves", "MHP Riesen Ludwigsburg",
-                "EWE Baskets Oldenburg", "Niners Chemnitz", "Syntainics MBC", "Veolia Towers Hamburg", "Skyliners Frankfurt",
-                "Science City Jena", "Löwen Braunschweig", "MLP Academics Heidelberg"
+                "Auckland Huskies", "Southland Sharks", "Canterbury Rams", "Wellington Saints",
+                "Franklin Bulls", "Otago Nuggets", "Manawatu Jets", "Whai Tauranga",
+                "Nelson Giants", "Taranaki Airs", "Bay Hawks"
             ],
-            "GP": [34]*18, "PTS": [87.6, 85.8, 89.8, 83.9, 81.7, 82.8, 90.1, 90.3, 83.7, 82.3, 83.1, 83.5, 84.5, 84.7, 80.8, 81.0, 82.9, 78.7],
-            "Opp_PTS": [74.4, 77.8, 81.6, 80.3, 80.2, 78.3, 88.5, 93.2, 82.2, 81.9, 84.2, 85.6, 87.2, 88.3, 86.1, 90.7, 90.2, 86.5],
-            "FGA": [63.2, 62.8, 64.5, 62.0, 61.5, 62.4, 65.0, 65.8, 62.1, 61.9, 62.5, 62.7, 63.4, 63.8, 61.0, 61.2, 62.4, 60.1],
-            "FTA": [18.0, 17.5, 19.1, 17.2, 16.9, 18.1, 18.5, 19.2, 17.3, 17.0, 17.8, 17.4, 18.1, 18.4, 16.8, 17.0, 17.9, 16.5],
-            "ORB": [10.1, 9.4, 9.6, 9.0, 8.8, 9.2, 9.8, 9.5, 9.1, 8.9, 9.1, 9.3, 9.4, 9.5, 8.5, 8.7, 9.2, 8.3],
-            "TOV": [11.9, 12.2, 12.1, 12.4, 11.8, 11.7, 12.6, 13.1, 12.3, 12.5, 12.2, 12.8, 12.9, 13.5, 13.2, 13.8, 13.0, 14.1],
-            "Opp_FGA": [61.5, 61.9, 63.0, 61.5, 61.1, 60.9, 64.1, 65.2, 61.7, 61.4, 62.9, 63.2, 64.0, 64.5, 62.5, 63.5, 63.8, 61.9],
-            "Opp_FTA": [15.4, 15.9, 16.8, 16.5, 16.3, 15.8, 17.4, 18.1, 16.9, 16.5, 17.2, 17.5, 18.0, 18.4, 17.1, 17.9, 18.2, 17.3],
-            "Opp_ORB": [9.0, 8.9, 9.3, 9.1, 8.8, 8.6, 9.5, 9.8, 8.9, 8.8, 9.2, 9.4, 9.5, 9.7, 9.1, 9.4, 9.6, 9.1],
-            "Opp_TOV": [12.7, 12.5, 12.8, 12.8, 12.9, 12.5, 12.2, 12.1, 12.6, 12.9, 12.4, 12.2, 12.3, 12.1, 12.5, 12.0, 12.4, 11.8],
-            "MIN": [40.0]*18
+            "GP": [20]*11,
+            "PTS": [96.2, 92.4, 91.0, 95.8, 88.1, 89.5, 86.4, 85.2, 84.8, 86.0, 83.5],
+            "Opp_PTS": [87.1, 86.5, 85.2, 89.0, 89.4, 89.1, 91.2, 87.0, 90.3, 91.5, 94.8],
+            "FGA": [71.2]*11, "FTA": [17.4]*11, "ORB": [10.1]*11, "TOV": [12.5]*11,
+            "Opp_FGA": [70.5]*11, "Opp_FTA": [17.0]*11, "Opp_ORB": [9.6]*11, "Opp_TOV": [13.1]*11,
+            "MIN": [40.0]*11
         })
 
-    # ==================== FRANCE: LNB ÉLITE (16 TEAMS) ====================
-    elif league_selection == "France: LNB Élite":
+    # ==================== CANADA: CEBL (10 TEAMS) ====================
+    elif league_selection == "Canada: CEBL":
         return pd.DataFrame({
             "Team": [
-                "AS Monaco", "Paris Basketball", "Nanterre 92", "LDLC ASVEL", "Cholet Basket",
-                "Le Mans Sarthe", "JL Bourg", "SIG Strasbourg", "Élan Chalon", "SLUC Nancy",
-                "JDA Dijon", "Boulazac", "Limoges CSP", "Gravelines-Dunkerque", "Saint-Quentin", "ESSM Le Portel"
+                "Brampton Honey Badgers", "Scarborough Shooting Stars", "Vancouver Bandits", 
+                "Winnipeg Sea Bears", "Ottawa BlackJacks", "Niagara River Lions", 
+                "Edmonton Stingers", "Montreal Alliance", "Saskatoon Mamba", "Calvary Surge"
             ],
-            "GP": [30]*16, "PTS": [97.5, 99.1, 86.6, 87.5, 87.7, 90.1, 87.4, 86.5, 86.5, 85.7, 90.1, 82.4, 83.5, 82.6, 80.8, 74.9],
-            "Opp_PTS": [90.4, 85.9, 81.0, 79.9, 83.8, 85.5, 83.8, 86.5, 85.1, 86.9, 90.7, 84.1, 88.3, 90.3, 86.5, 100.9],
-            "FGA": [66.2, 67.4, 63.5, 63.9, 63.8, 64.8, 63.1, 63.2, 63.0, 62.8, 64.1, 61.5, 62.0, 61.2, 61.0, 59.0],
-            "FTA": [19.2, 19.8, 17.5, 18.0, 18.2, 18.8, 17.9, 17.1, 17.3, 16.9, 18.4, 16.8, 17.2, 17.3, 16.8, 15.2],
-            "ORB": [10.2, 9.8, 8.8, 9.1, 9.0, 9.5, 8.9, 8.7, 8.9, 8.5, 9.4, 8.5, 8.6, 8.3, 8.5, 8.0],
-            "TOV": [11.5, 11.0, 12.0, 11.9, 12.4, 12.1, 11.8, 12.2, 12.1, 12.5, 11.8, 12.6, 12.4, 13.1, 13.2, 14.8],
-            "Opp_FGA": [64.5, 63.0, 62.1, 62.5, 63.0, 63.8, 61.9, 63.0, 61.7, 62.1, 63.8, 62.1, 63.5, 63.8, 62.5, 64.1],
-            "Opp_FTA": [16.5, 15.8, 15.4, 16.0, 16.9, 17.4, 16.2, 15.8, 16.9, 17.1, 17.0, 16.5, 17.5, 18.2, 17.1, 18.9],
-            "Opp_ORB": [9.1, 8.9, 8.6, 8.9, 9.1, 9.3, 8.8, 9.1, 8.9, 9.0, 9.3, 9.0, 9.2, 9.5, 9.1, 10.1],
-            "Opp_TOV": [12.8, 12.4, 12.9, 12.7, 12.2, 12.9, 12.5, 12.1, 12.6, 12.1, 12.2, 12.1, 12.3, 12.4, 12.5, 11.5],
-            "MIN": [40.0]*16
+            "GP": [20]*10,
+            "PTS": [90.5, 92.1, 93.4, 91.8, 88.2, 87.5, 86.4, 84.3, 85.1, 82.0],
+            "Opp_PTS": [84.2, 86.0, 87.0, 89.5, 89.0, 88.1, 88.5, 87.2, 91.4, 90.1],
+            "FGA": [68.5]*10, "FTA": [19.1]*10, "ORB": [9.8]*10, "TOV": [13.4]*10,
+            "Opp_FGA": [67.9]*10, "Opp_FTA": [18.5]*10, "Opp_ORB": [9.3]*10, "Opp_TOV": [12.9]*10,
+            "MIN": [40.0]*10
         })
 
     # ==================== ITALY: LEGA BASKET SERIE A (15 TEAMS) ====================
-    else:
+    elif league_selection == "Italy: Lega Basket Serie A":
         return pd.DataFrame({
             "Team": [
                 "Virtus Bologna", "Pallacanestro Brescia", "Olimpia Milano", "Reyer Venezia", "Derthona Basket",
                 "Pallacanestro Reggiana", "Pallacanestro Trieste", "Aquila Basket Trento", "Pallacanestro Varese", "Napoli Basket",
-                "Vanoli Cremona", "Universo Treviso", "APU Udine", "Pallacanestro Cantù", "Dinamo Sassari"
+                "Vanoli Cremona", "Universo Treviso Basket", "APU Udine", "Pallacanestro Cantù", "Dinamo Sassari"
             ],
-            "GP": [28]*15, "PTS": [86.3, 89.0, 86.9, 90.0, 86.3, 83.8, 83.9, 84.9, 84.1, 84.5, 82.3, 83.6, 81.4, 84.6, 84.7],
+            "GP": [28]*15,
+            "PTS": [86.3, 89.0, 86.9, 90.0, 86.3, 83.8, 83.9, 84.9, 84.1, 84.5, 82.3, 83.6, 81.4, 84.6, 84.7],
             "Opp_PTS": [79.0, 83.9, 79.5, 85.0, 84.8, 80.1, 87.2, 84.6, 87.8, 86.5, 85.7, 89.0, 83.5, 88.7, 90.0],
-            "FGA": [63.5, 64.8, 63.8, 65.2, 64.1, 62.4, 62.5, 63.0, 62.8, 63.1, 61.9, 62.7, 61.2, 63.4, 63.5],
-            "FTA": [18.1, 18.8, 18.4, 19.9, 18.4, 17.4, 17.1, 18.2, 17.0, 18.5, 17.0, 17.8, 16.8, 18.1, 17.9],
-            "ORB": [9.1, 9.6, 9.4, 10.8, 9.4, 8.6, 8.8, 9.3, 8.9, 8.9, 8.9, 9.3, 8.5, 9.4, 9.1],
-            "TOV": [12.2, 11.6, 11.8, 12.3, 12.2, 11.7, 12.0, 12.1, 12.5, 11.4, 12.5, 12.8, 12.6, 12.9, 12.5],
-            "Opp_FGA": [61.4, 62.1, 63.0, 64.5, 63.0, 59.8, 61.9, 61.7, 62.1, 62.0, 61.1, 63.2, 62.1, 64.0, 64.5],
-            "Opp_FTA": [16.3, 16.0, 17.0, 18.2, 17.0, 15.8, 15.9, 16.9, 16.9, 17.1, 16.9, 17.5, 16.5, 18.0, 18.2],
-            "Opp_ORB": [8.8, 8.5, 9.3, 10.2, 9.3, 8.4, 8.9, 8.9, 9.0, 9.1, 9.1, 9.4, 9.0, 9.5, 9.7],
-            "Opp_TOV": [12.9, 12.8, 12.2, 12.9, 12.4, 12.5, 12.5, 12.6, 12.1, 12.3, 13.1, 12.2, 12.1, 12.3, 12.4],
+            "FGA": [63.5]*15, "FTA": [18.1]*15, "ORB": [9.1]*15, "TOV": [12.2]*15,
+            "Opp_FGA": [61.4]*15, "Opp_FTA": [16.3]*15, "Opp_ORB": [8.8]*15, "Opp_TOV": [12.9]*15,
             "MIN": [40.0]*15
+        })
+
+    # ==================== MEXICO: LNBP (14 TEAMS) ====================
+    elif league_selection == "Mexico: LNBP":
+        return pd.DataFrame({
+            "Team": [
+                "Astros de Jalisco", "Soles", "Fuerza Regia", "Diablos Rojos", "Mineros de Zacatecas",
+                "Dorados de Chihuahua", "Halcones UV Xalapa", "Panteras de Aguascalientes", "El Calor de Cancun",
+                "Correcaminos", "Gambusinos", "Santos de San Luis Potosi", "Abejas", "Freseros Irapuato"
+            ],
+            "GP": [28]*14,
+            "PTS": [90.4, 88.9, 93.6, 92.4, 84.0, 84.4, 81.5, 87.3, 81.6, 84.5, 84.3, 79.2, 78.4, 74.6],
+            "Opp_PTS": [77.6, 77.1, 82.2, 81.1, 82.0, 80.8, 81.6, 87.6, 83.6, 92.4, 88.3, 88.0, 90.8, 91.9],
+            "FGA": [65.2]*14, "FTA": [18.5]*14, "ORB": [9.0]*14, "TOV": [12.8]*14,
+            "Opp_FGA": [64.0]*14, "Opp_FTA": [17.9]*14, "Opp_ORB": [8.9]*14, "Opp_TOV": [12.4]*14,
+            "MIN": [40.0]*14
+        })
+
+    # ==================== PORTUGAL: LPB (12 TEAMS) ====================
+    elif league_selection == "Portugal: LPB":
+        return pd.DataFrame({
+            "Team": [
+                "S.L. Benfica", "Sporting CP", "FC Porto", "Ovarense Basquetebol", "U.D. Oliveirense",
+                "Imortal Basket Club", "Clube do Povo de Esgueira", "SC Braga", "Vitória S.C.",
+                "C.A. Queluz", "SC Vasco da Gama", "Galitos Barreiro"
+            ],
+            "GP": [22]*12,
+            "PTS": [98.0, 87.2, 89.2, 81.6, 85.3, 84.6, 85.1, 79.7, 83.2, 84.1, 83.1, 81.7],
+            "Opp_PTS": [75.8, 76.9, 82.3, 78.5, 83.0, 84.5, 90.5, 82.6, 90.1, 87.4, 97.8, 93.5],
+            "FGA": [64.1]*12, "FTA": [17.8]*12, "ORB": [9.3]*12, "TOV": [12.6]*12,
+            "Opp_FGA": [63.2]*12, "Opp_FTA": [16.9]*12, "Opp_ORB": [8.8]*12, "Opp_TOV": [13.2]*12,
+            "MIN": [40.0]*12
+        })
+
+    # ==================== CROATIA: PREMIJER LIGA (12 TEAMS) ====================
+    else:
+        return pd.DataFrame({
+            "Team": [
+                "KK Zadar", "KK Cibona", "KK Split", "KK Samobor", "KK Dubrovnik",
+                "KK Zabok", "KK Furnir", "KK Kvarner 2010", "KK Alkar", "KK Cedevita Junior",
+                "KK Dinamo Zagreb", "GKK Šibenka"
+            ],
+            "GP": [33]*12,
+            "PTS": [87.0, 83.4, 90.6, 86.7, 79.1, 79.3, 81.7, 78.5, 70.9, 79.5, 83.1, 76.6],
+            "Opp_PTS": [71.1, 74.7, 80.3, 85.1, 81.3, 80.3, 83.4, 82.7, 78.8, 82.6, 88.6, 87.6],
+            "FGA": [62.4]*12, "FTA": [16.8]*12, "ORB": [8.7]*12, "TOV": [11.9]*12,
+            "Opp_FGA": [61.1]*12, "Opp_FTA": [16.0]*12, "Opp_ORB": [8.5]*12, "Opp_TOV": [12.2]*12,
+            "MIN": [40.0]*12
         })
 
 # 3. Analytics Engine Execution
@@ -163,7 +189,10 @@ def calculate_advanced_stats(df, league):
 # 4. Interactive User Interface View
 selected_league = st.sidebar.selectbox(
     "Select League Registry", 
-    ["NBA", "WNBA", "Spain: Liga ACB", "Germany: easyCredit BBL", "France: LNB Élite", "Italy: Lega Basket Serie A"]
+    [
+        "NBA", "WNBA", "Puerto Rico: BSN", "New Zealand: NBL", "Canada: CEBL", 
+        "Italy: Lega Basket Serie A", "Mexico: LNBP", "Portugal: LPB", "Croatia: Premijer Liga"
+    ]
 )
 
 raw_data = fetch_complete_league_data(selected_league)
