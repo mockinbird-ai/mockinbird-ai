@@ -6,8 +6,8 @@ import numpy as np
 # 1. PAGE SETUP & DATA STRUCTURE
 # ==========================================
 st.set_page_config(page_title="MiHoops Analytics Pro", page_icon="🏀", layout="wide")
-st.title("🏀 MiHoops Advanced Predictive Engine")
-st.markdown("### Dual-Horizon Efficiency Matrix: 50% Season / 50% Last 10 Games")
+st.title("🏀 MiHoops")
+st.markdown("Advanced Basketball Prediction Engine)
 st.markdown("---")
 
 # Comprehensive Global League Baselines (15 Leagues Complete with Correct Team Registries)
@@ -65,15 +65,15 @@ selected_league = st.sidebar.selectbox("Select Competition Registry", list(LEAGU
 
 processed_stats = generate_advanced_dataset(selected_league)
 
-st.subheader("⚙️ Matchup Profiling Engine")
+st.subheader("🤖 Matchup Profiling")
 col1, col2 = st.columns(2)
 with col1:
-    home_team = st.selectbox("Designate Home Team", processed_stats["Team"].unique(), index=0)
+    home_team = st.selectbox("Home Team", processed_stats["Team"].unique(), index=0)
 with col2:
-    away_team = st.selectbox("Designate Away Team", processed_stats["Team"].unique(), index=1)
+    away_team = st.selectbox("Away Team", processed_stats["Team"].unique(), index=1)
 
 if home_team != away_team:
-    if st.button("Run Advanced Form-Blended Simulation", type="primary"):
+    if st.button("Launch", type="primary"):
         home_profile = processed_stats[processed_stats["Team"] == home_team].iloc[0]
         away_profile = processed_stats[processed_stats["Team"] == away_team].iloc[0]
         
@@ -123,14 +123,14 @@ if home_team != away_team:
         # 4. DATA PRESENTATION DASHBOARD
         # ==========================================
         st.markdown("---")
-        st.header(f"🦅 Projected Winner: {winner_declaration}")
-        st.metric("Model Algorithmic Confidence", f"{confidence_percentage:.2f}%")
+        st.header(f"🦅 Winner: {winner_declaration}")
+        st.metric("Model Algorithmic Rating", f"{confidence_percentage:.2f}%")
         
         st.subheader("📋 Core Scoreboard Allocation Matrix")
         scoreboard_df = pd.DataFrame({
             "Team Lineup": [f"{home_team} [HOME]", f"{away_team} [AWAY]"],
             "First Half Score": [half_home, half_away],
-            "Final Simulated Score": [final_home, final_away]
+            "Final Score": [final_home, final_away]
         })
         st.table(scoreboard_df.set_index("Team Lineup"))
         
