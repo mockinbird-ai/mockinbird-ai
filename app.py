@@ -311,7 +311,7 @@ GLOBAL_LEAGUE_DATABASE = {
             "Manisa BBSK": {"ORTG": 111.9, "DRTG": 112.8, "PACE": 76.9},
             "Onvo Buyukcekmece": {"ORTG": 109.8, "DRTG": 111.5, "PACE": 76.1},
             "Petkim Spor": {"ORTG": 112.1, "DRTG": 111.2, "PACE": 76.6},
-            "Pinar Karsiyaka": {"ORTG": 115.2, "DRTG": 112.4, "PACE": 18.1},
+            "Pinar Karsiyaka": {"ORTG": 115.2, "DRTG": 112.4, "PACE": 78.1},
             "Reeder Samsunspor": {"ORTG": 102.1, "DRTG": 118.4, "PACE": 76.0},
             "Tofas Bursa": {"ORTG": 113.1, "DRTG": 114.2, "PACE": 77.0},
             "Turk Telekom": {"ORTG": 110.4, "DRTG": 109.8, "PACE": 75.6},
@@ -319,4 +319,4 @@ GLOBAL_LEAGUE_DATABASE = {
             "Cagdas Bodrum": {"ORTG": 107.5, "DRTG": 112.9, "PACE": 76.4}
         }
     },
-    "B
+    
