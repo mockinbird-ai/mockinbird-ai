@@ -10,7 +10,6 @@ st.markdown("---")
 # =========================================================================
 # HARDCODED GLOBAL LEAGUE REGISTRY
 # Data source anchors: Basketball-Reference (NBA/WNBA) | RealGM (International)
-# 📝 UPDATE THE INTERNALS OF THIS DICTIONARY WEEKLY FOR DATA UPDATES
 # =========================================================================
 GLOBAL_LEAGUE_DATABASE = {
     "NBA": {
@@ -319,4 +318,5 @@ GLOBAL_LEAGUE_DATABASE = {
             "Cagdas Bodrum": {"ORTG": 107.5, "DRTG": 112.9, "PACE": 76.4}
         }
     },
-    
+    "Brazil (NBB)": {
+        "avg_pace": 76.8, "avg_ortg": 109.5, "hca_bon
