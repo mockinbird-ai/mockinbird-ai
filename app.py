@@ -4,13 +4,30 @@ import pandas as pd
 # Page Configuration
 st.set_page_config(page_title="Global Hoops Predictor 2026", page_icon="🏀", layout="centered")
 st.title("🏀 Pro Basketball 2026 Matrix Prediction Engine")
-st.markdown("### Google Sheets Advanced Spreadsheet Math Pipeline (v2026.9)")
+st.markdown("### Google Sheets Advanced Spreadsheet Math Pipeline (v2026.10)")
 st.markdown("---")
 
 # =========================================================================
-# HARDCODED ADVANCED DATASET BASELINE WITH COMPLETE 2026 TEAM ROSTERS
+# SYSTEM MASTER ADVANCED METRICS REGISTRY - 12 COUNTRIES COMPLETE
 # =========================================================================
 BASKETBALL_MASTER_DB = {
+    "Puerto Rico (BSN)": {
+        "avg_pace": 84.2, "avg_ortg": 112.8,
+        "teams": {
+            "Atléticos de San Germán": {"ORTG": 114.8, "DRTG": 109.8, "PACE": 84.6},
+            "Cangrejeros de Santurce": {"ORTG": 111.4, "DRTG": 112.8, "PACE": 83.8},
+            "Capitanes de Arecibo": {"ORTG": 116.5, "DRTG": 113.4, "PACE": 84.9},
+            "Criollos de Caguas": {"ORTG": 117.8, "DRTG": 112.1, "PACE": 85.5},
+            "Gigantes de Carolina": {"ORTG": 114.1, "DRTG": 112.5, "PACE": 84.1},
+            "Indios de Mayagüez": {"ORTG": 110.9, "DRTG": 112.2, "PACE": 85.0},
+            "Leones de Ponce": {"ORTG": 111.2, "DRTG": 114.3, "PACE": 83.9},
+            "Mets de Guaynabo": {"ORTG": 113.8, "DRTG": 112.9, "PACE": 83.3},
+            "Osos de Manatí": {"ORTG": 114.5, "DRTG": 116.4, "PACE": 85.1},
+            "Piratas de Quebradillas": {"ORTG": 113.0, "DRTG": 114.8, "PACE": 85.6},
+            "Santeros de Aguada": {"ORTG": 112.5, "DRTG": 113.1, "PACE": 84.4},
+            "Vaqueros de Bayamón": {"ORTG": 116.9, "DRTG": 108.5, "PACE": 83.2}
+        }
+    },
     "Spain (Liga ACB)": {
         "avg_pace": 77.2, "avg_ortg": 112.4,
         "teams": {
@@ -151,23 +168,6 @@ BASKETBALL_MASTER_DB = {
             "Mersin MSK": {"ORTG": 108.9, "DRTG": 111.8, "PACE": 76.7}
         }
     },
-    "Puerto Rico (BSN)": {
-        "avg_pace": 84.2, "avg_ortg": 112.8,
-        "teams": {
-            "Vaqueros de Bayamón": {"ORTG": 116.9, "DRTG": 108.5, "PACE": 83.2},
-            "Capitanes de Arecibo": {"ORTG": 116.5, "DRTG": 113.4, "PACE": 84.9},
-            "Criollos de Caguas": {"ORTG": 117.8, "DRTG": 112.1, "PACE": 85.5},
-            "Gigantes de Carolina": {"ORTG": 114.1, "DRTG": 112.5, "PACE": 84.1},
-            "Atléticos de San Germán": {"ORTG": 114.8, "DRTG": 109.8, "PACE": 84.6},
-            "Mets de Guaynabo": {"ORTG": 113.8, "DRTG": 112.9, "PACE": 83.3},
-            "Osos de Manatí": {"ORTG": 114.5, "DRTG": 116.4, "PACE": 85.1},
-            "Cangrejeros de Santurce": {"ORTG": 111.4, "DRTG": 112.8, "PACE": 83.8},
-            "Santeros de Aguada": {"ORTG": 112.5, "DRTG": 113.1, "PACE": 84.4},
-            "Indios de Mayagüez": {"ORTG": 110.9, "DRTG": 112.2, "PACE": 85.0},
-            "Leones de Ponce": {"ORTG": 111.2, "DRTG": 114.3, "PACE": 83.9},
-            "Piratas de Quebradillas": {"ORTG": 113.0, "DRTG": 114.8, "PACE": 85.6}
-        }
-    },
     "New Zealand (NBL)": {
         "avg_pace": 84.8, "avg_ortg": 110.5,
         "teams": {
@@ -266,7 +266,7 @@ with col_a:
 
 # Weekly Dynamic Overrides Panel for Specific Selected Teams
 with st.expander("📝 Edit Individual Selected Team Core Stats (Optional Weekly Tuning)"):
-    col_t1, col_t2 = st.columns(2)
+    col_t1, col_t2 = col_h, col_a # match alignment blocks
     with col_t1:
         st.markdown(f"**🏡 {home} overrides**")
         h_pace = st.number_input("Team Pace", value=float(cfg["teams"][home]["PACE"]), key="hp", step=0.1)
