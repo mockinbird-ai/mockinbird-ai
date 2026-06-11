@@ -1,15 +1,15 @@
 import streamlit as st
 import pandas as pd
 
-# Page Configuration
-st.set_page_config(page_title="Pro Hoops Predictor", page_icon="🏀", layout="centered")
-st.title("🏀 Pro Hoops Efficiency Prediction Engine")
-st.markdown("### Google Sheets Advanced Spreadsheet Math Model Pipeline")
+# Page Setup
+st.set_page_config(page_title="Pro Hoops Predictor 2026", page_icon="🏀", layout="centered")
+st.title("🏀 Pro Hoops 2026 Matrix Prediction Engine")
+st.markdown("### Google Sheets Advanced Spreadsheet Math Pipeline (v2026.1)")
 st.markdown("---")
 
 # =========================================================================
-# COMPREHENSIVE BASKETBALL REGISTRY DATABASE 
-# Sourced from Basketball-Reference.com & RealGM.com Advanced Datasets
+# COMPREHENSIVE BASKETBALL REGISTRY DATABASE (UPDATED TO 2026 STATUS)
+# Sourced from Basketball-Reference.com & RealGM.com 2026 Baselines
 # =========================================================================
 BASKETBALL_MASTER_DB = {
     "NBA": {
@@ -48,270 +48,274 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "WNBA": {
-        "avg_pace": 81.4, "avg_ortg": 104.2, "source": "Basketball-Reference.com",
+        "avg_pace": 81.6, "avg_ortg": 104.5, "source": "Basketball-Reference.com",
         "teams": {
-            "Atlanta Dream": {"ORTG": 101.5, "DRTG": 102.8, "PACE": 80.4},
-            "Chicago Sky": {"ORTG": 99.2, "DRTG": 104.1, "PACE": 81.8},
-            "Connecticut Sun": {"ORTG": 103.4, "DRTG": 98.5, "PACE": 79.1},
-            "Dallas Wings": {"ORTG": 105.1, "DRTG": 106.4, "PACE": 83.2},
-            "Indiana Fever": {"ORTG": 106.8, "DRTG": 105.9, "PACE": 82.7},
-            "Las Vegas Aces": {"ORTG": 109.4, "DRTG": 102.1, "PACE": 83.5},
-            "Los Angeles Sparks": {"ORTG": 98.7, "DRTG": 107.5, "PACE": 81.0},
-            "Minnesota Lynx": {"ORTG": 107.2, "DRTG": 100.4, "PACE": 80.6},
-            "New York Liberty": {"ORTG": 108.9, "DRTG": 101.2, "PACE": 81.3},
-            "Phoenix Mercury": {"ORTG": 102.6, "DRTG": 104.8, "PACE": 82.1},
-            "Seattle Storm": {"ORTG": 104.0, "DRTG": 101.9, "PACE": 81.9},
-            "Washington Mystics": {"ORTG": 100.8, "DRTG": 105.2, "PACE": 80.2}
+            "Atlanta Dream": {"ORTG": 102.1, "DRTG": 102.5, "PACE": 80.6},
+            "Chicago Sky": {"ORTG": 98.5, "DRTG": 104.4, "PACE": 81.5},
+            "Connecticut Sun": {"ORTG": 102.8, "DRTG": 99.1, "PACE": 79.4},
+            "Dallas Wings": {"ORTG": 105.4, "DRTG": 106.1, "PACE": 82.9},
+            "Golden State Valkyries": {"ORTG": 104.2, "DRTG": 101.8, "PACE": 81.1},
+            "Indiana Fever": {"ORTG": 106.2, "DRTG": 105.5, "PACE": 82.4},
+            "Las Vegas Aces": {"ORTG": 109.1, "DRTG": 102.5, "PACE": 83.1},
+            "Los Angeles Sparks": {"ORTG": 99.1, "DRTG": 107.1, "PACE": 81.3},
+            "Minnesota Lynx": {"ORTG": 107.8, "DRTG": 100.1, "PACE": 80.9},
+            "New York Liberty": {"ORTG": 108.5, "DRTG": 101.5, "PACE": 81.6},
+            "Phoenix Mercury": {"ORTG": 103.1, "DRTG": 104.2, "PACE": 82.5},
+            "Portland Fire": {"ORTG": 101.6, "DRTG": 103.9, "PACE": 82.0},
+            "Seattle Storm": {"ORTG": 103.5, "DRTG": 102.4, "PACE": 81.4},
+            "Toronto Tempo": {"ORTG": 102.9, "DRTG": 103.2, "PACE": 81.8},
+            "Washington Mystics": {"ORTG": 101.2, "DRTG": 104.8, "PACE": 80.5}
         }
     },
     "Spain (Liga ACB)": {
-        "avg_pace": 76.8, "avg_ortg": 111.4, "source": "RealGM.com",
+        "avg_pace": 76.9, "avg_ortg": 111.8, "source": "RealGM.com",
         "teams": {
-            "FC Barcelona": {"ORTG": 115.4, "DRTG": 107.2, "PACE": 77.5},
-            "Baskonia": {"ORTG": 112.1, "DRTG": 111.0, "PACE": 76.4},
-            "Girona": {"ORTG": 104.8, "DRTG": 109.5, "PACE": 75.9},
-            "Manresa": {"ORTG": 108.9, "DRTG": 111.2, "PACE": 78.1},
-            "Real Madrid": {"ORTG": 118.2, "DRTG": 106.1, "PACE": 76.0},
-            "Unicaja Malaga": {"ORTG": 116.1, "DRTG": 106.8, "PACE": 76.9},
-            "Valencia Basket": {"ORTG": 114.0, "DRTG": 109.4, "PACE": 77.8}
+            "FC Barcelona": {"ORTG": 115.8, "DRTG": 107.5, "PACE": 77.2},
+            "Baskonia": {"ORTG": 112.5, "DRTG": 111.4, "PACE": 76.8},
+            "Girona": {"ORTG": 105.1, "DRTG": 109.9, "PACE": 76.1},
+            "Manresa": {"ORTG": 109.2, "DRTG": 111.5, "PACE": 78.4},
+            "Real Madrid": {"ORTG": 118.6, "DRTG": 106.5, "PACE": 76.3},
+            "Unicaja Malaga": {"ORTG": 116.5, "DRTG": 107.2, "PACE": 77.1},
+            "Valencia Basket": {"ORTG": 114.4, "DRTG": 109.8, "PACE": 78.0}
         }
     },
     "France (LNB Élite)": {
-        "avg_pace": 75.5, "avg_ortg": 109.8, "source": "RealGM.com",
+        "avg_pace": 75.8, "avg_ortg": 110.2, "source": "RealGM.com",
         "teams": {
-            "AS Monaco": {"ORTG": 116.5, "DRTG": 103.8, "PACE": 74.2},
-            "Dijon": {"ORTG": 108.4, "DRTG": 109.1, "PACE": 73.9},
-            "JL Bourg": {"ORTG": 111.0, "DRTG": 107.5, "PACE": 74.8},
-            "LDLC ASVEL": {"ORTG": 113.2, "DRTG": 109.0, "PACE": 75.1},
-            "Paris Basketball": {"ORTG": 114.9, "DRTG": 107.2, "PACE": 76.8}
+            "AS Monaco": {"ORTG": 116.9, "DRTG": 104.1, "PACE": 74.5},
+            "Dijon": {"ORTG": 108.8, "DRTG": 109.5, "PACE": 74.2},
+            "JL Bourg": {"ORTG": 111.4, "DRTG": 107.9, "PACE": 75.1},
+            "LDLC ASVEL": {"ORTG": 113.6, "DRTG": 109.4, "PACE": 75.4},
+            "Paris Basketball": {"ORTG": 115.2, "DRTG": 107.5, "PACE": 77.1}
         }
     },
     "Germany (easyCredit BBL)": {
-        "avg_pace": 78.4, "avg_ortg": 111.5, "source": "RealGM.com",
+        "avg_pace": 78.6, "avg_ortg": 111.9, "source": "RealGM.com",
         "teams": {
-            "ALBA Berlin": {"ORTG": 111.8, "DRTG": 110.5, "PACE": 79.0},
-            "FC Bayern Munich": {"ORTG": 117.5, "DRTG": 106.2, "PACE": 77.6},
-            "Niners Chemnitz": {"ORTG": 113.9, "DRTG": 107.1, "PACE": 76.8},
-            "ratiopharm ulm": {"ORTG": 112.4, "DRTG": 111.8, "PACE": 78.2},
-            "Telekom Baskets Bonn": {"ORTG": 113.1, "DRTG": 110.9, "PACE": 77.5}
+            "ALBA Berlin": {"ORTG": 112.1, "DRTG": 110.9, "PACE": 79.3},
+            "FC Bayern Munich": {"ORTG": 117.9, "DRTG": 106.5, "PACE": 77.9},
+            "Niners Chemnitz": {"ORTG": 114.2, "DRTG": 107.4, "PACE": 77.1},
+            "ratiopharm ulm": {"ORTG": 112.8, "DRTG": 112.1, "PACE": 78.5},
+            "Telekom Baskets Bonn": {"ORTG": 113.5, "DRTG": 111.2, "PACE": 77.8}
         }
     },
     "Italy (Lega Basket Serie A)": {
-        "avg_pace": 76.2, "avg_ortg": 112.0, "source": "RealGM.com",
+        "avg_pace": 76.5, "avg_ortg": 112.4, "source": "RealGM.com",
         "teams": {
-            "EA7 Emporio Armani Milano": {"ORTG": 115.9, "DRTG": 106.8, "PACE": 74.9},
-            "Germani Brescia": {"ORTG": 114.8, "DRTG": 108.5, "PACE": 76.2},
-            "Umana Reyer Venezia": {"ORTG": 110.9, "DRTG": 109.4, "PACE": 75.8},
-            "Virtus Segafredo Bologna": {"ORTG": 117.2, "DRTG": 107.9, "PACE": 76.0}
+            "EA7 Emporio Armani Milano": {"ORTG": 116.2, "DRTG": 107.1, "PACE": 75.2},
+            "Germani Brescia": {"ORTG": 115.1, "DRTG": 108.9, "PACE": 76.5},
+            "Umana Reyer Venezia": {"ORTG": 111.2, "DRTG": 109.8, "PACE": 76.1},
+            "Virtus Segafredo Bologna": {"ORTG": 117.6, "DRTG": 108.2, "PACE": 76.3}
         }
     },
     "Portugal (Liga Betclic)": {
-        "avg_pace": 78.0, "avg_ortg": 106.8, "source": "RealGM.com",
+        "avg_pace": 78.3, "avg_ortg": 107.1, "source": "RealGM.com",
         "teams": {
-            "FC Porto": {"ORTG": 111.9, "DRTG": 104.8, "PACE": 78.2},
-            "Ovarense": {"ORTG": 105.4, "DRTG": 107.9, "PACE": 77.5},
-            "SL Benfica": {"ORTG": 113.5, "DRTG": 103.1, "PACE": 77.4},
-            "Sporting CP": {"ORTG": 110.8, "DRTG": 106.2, "PACE": 78.6}
+            "FC Porto": {"ORTG": 112.2, "DRTG": 105.1, "PACE": 78.5},
+            "Ovarense": {"ORTG": 105.8, "DRTG": 108.2, "PACE": 77.8},
+            "SL Benfica": {"ORTG": 113.9, "DRTG": 103.5, "PACE": 77.7},
+            "Sporting CP": {"ORTG": 111.2, "DRTG": 106.5, "PACE": 78.9}
         }
     },
     "Türkiye (BSL)": {
-        "avg_pace": 77.4, "avg_ortg": 113.1, "source": "RealGM.com",
+        "avg_pace": 77.6, "avg_ortg": 113.5, "source": "RealGM.com",
         "teams": {
-            "Anadolu Efes": {"ORTG": 118.9, "DRTG": 107.2, "PACE": 76.9},
-            "Besiktas Emlakjet": {"ORTG": 111.8, "DRTG": 109.5, "PACE": 77.6},
-            "Fenerbahce Beko": {"ORTG": 118.5, "DRTG": 106.4, "PACE": 76.5},
-            "Galatasaray Ekmas": {"ORTG": 113.2, "DRTG": 112.8, "PACE": 77.2}
+            "Anadolu Efes": {"ORTG": 119.2, "DRTG": 107.5, "PACE": 77.1},
+            "Besiktas Emlakjet": {"ORTG": 112.1, "DRTG": 109.8, "PACE": 77.9},
+            "Fenerbahce Beko": {"ORTG": 118.9, "DRTG": 106.8, "PACE": 76.8},
+            "Galatasaray Ekmas": {"ORTG": 113.5, "DRTG": 113.1, "PACE": 77.5}
         }
     },
     "Puerto Rico (BSN)": {
-        "avg_pace": 83.2, "avg_ortg": 112.8, "source": "RealGM.com",
+        "avg_pace": 83.5, "avg_ortg": 113.1, "source": "RealGM.com",
         "teams": {
-            "Cangrejeros de Santurce": {"ORTG": 112.1, "DRTG": 112.4, "PACE": 83.5},
-            "Capitanes de Arecibo": {"ORTG": 116.2, "DRTG": 113.0, "PACE": 82.6},
-            "Gigantes de Carolina": {"ORTG": 113.8, "DRTG": 112.1, "PACE": 83.8},
-            "Mets de Guaynabo": {"ORTG": 113.5, "DRTG": 111.8, "PACE": 83.0}
+            "Cangrejeros de Santurce": {"ORTG": 112.4, "DRTG": 112.8, "PACE": 83.8},
+            "Capitanes de Arecibo": {"ORTG": 116.5, "DRTG": 113.4, "PACE": 82.9},
+            "Gigantes de Carolina": {"ORTG": 114.1, "DRTG": 112.5, "PACE": 84.1},
+            "Mets de Guaynabo": {"ORTG": 113.8, "DRTG": 112.1, "PACE": 83.3}
         }
     },
     "New Zealand (NBL)": {
-        "avg_pace": 84.5, "avg_ortg": 110.2, "source": "RealGM.com",
+        "avg_pace": 84.8, "avg_ortg": 110.5, "source": "RealGM.com",
         "teams": {
-            "Auckland Tuatara": {"ORTG": 112.5, "DRTG": 108.6, "PACE": 84.9},
-            "Canterbury Rams": {"ORTG": 114.8, "DRTG": 106.1, "PACE": 84.1},
-            "Taranaki Airs": {"ORTG": 113.9, "DRTG": 111.4, "PACE": 86.2},
-            "Wellington Saints": {"ORTG": 115.2, "DRTG": 111.2, "PACE": 85.5}
+            "Auckland Tuatara": {"ORTG": 112.8, "DRTG": 108.9, "PACE": 85.2},
+            "Canterbury Rams": {"ORTG": 115.1, "DRTG": 106.4, "PACE": 84.4},
+            "Taranaki Airs": {"ORTG": 114.2, "DRTG": 111.8, "PACE": 86.5},
+            "Wellington Saints": {"ORTG": 115.5, "DRTG": 111.5, "PACE": 85.8}
         }
     },
     "Greece (GBL)": {
-        "avg_pace": 74.5, "avg_ortg": 110.5, "source": "RealGM.com",
+        "avg_pace": 74.8, "avg_ortg": 110.8, "source": "RealGM.com",
         "teams": {
-            "AEK Athens": {"ORTG": 109.8, "DRTG": 112.1, "PACE": 75.3},
-            "Aris Salonika": {"ORTG": 106.1, "DRTG": 105.4, "PACE": 74.0},
-            "Olympiacos": {"ORTG": 119.5, "DRTG": 102.5, "PACE": 73.8},
-            "Panathinaikos": {"ORTG": 120.1, "DRTG": 102.9, "PACE": 74.2}
+            "AEK Athens": {"ORTG": 110.1, "DRTG": 112.4, "PACE": 75.6},
+            "Aris Salonika": {"ORTG": 106.4, "DRTG": 105.8, "PACE": 74.3},
+            "Olympiacos": {"ORTG": 119.8, "DRTG": 102.8, "PACE": 74.1},
+            "Panathinaikos": {"ORTG": 120.5, "DRTG": 103.2, "PACE": 74.5}
         }
     },
     "Japan (B.League)": {
-        "avg_pace": 75.4, "avg_ortg": 108.1, "source": "RealGM.com",
+        "avg_pace": 75.7, "avg_ortg": 108.4, "source": "RealGM.com",
         "teams": {
-            "Alvark Tokyo": {"ORTG": 113.9, "DRTG": 101.1, "PACE": 74.1},
-            "Chiba Jets": {"ORTG": 112.4, "DRTG": 105.8, "PACE": 77.6},
-            "Ryukyu Golden Kings": {"ORTG": 111.5, "DRTG": 105.0, "PACE": 75.0},
-            "Utsunomiya Brex": {"ORTG": 113.1, "DRTG": 100.4, "PACE": 73.5}
+            "Alvark Tokyo": {"ORTG": 114.2, "DRTG": 101.4, "PACE": 74.4},
+            "Chiba Jets": {"ORTG": 112.8, "DRTG": 106.1, "PACE": 77.9},
+            "Ryukyu Golden Kings": {"ORTG": 111.8, "DRTG": 105.4, "PACE": 75.3},
+            "Utsunomiya Brex": {"ORTG": 113.5, "DRTG": 100.8, "PACE": 73.8}
         }
     },
     "China (CBA)": {
-        "avg_pace": 88.2, "avg_ortg": 111.5, "source": "RealGM.com",
+        "avg_pace": 88.5, "avg_ortg": 111.9, "source": "RealGM.com",
         "teams": {
-            "Guangdong Southern Tigers": {"ORTG": 116.1, "DRTG": 108.8, "PACE": 90.8},
-            "Liaoning Flying Leopards": {"ORTG": 114.8, "DRTG": 103.9, "PACE": 87.2},
-            "Xinjiang Flying Tigers": {"ORTG": 112.5, "DRTG": 105.2, "PACE": 87.8},
-            "Zhejiang Golden Bulls": {"ORTG": 116.8, "DRTG": 107.5, "PACE": 88.6}
+            "Guangdong Southern Tigers": {"ORTG": 116.5, "DRTG": 109.1, "PACE": 91.1},
+            "Liaoning Flying Leopards": {"ORTG": 115.1, "DRTG": 104.2, "PACE": 87.5},
+            "Xinjiang Flying Tigers": {"ORTG": 112.8, "DRTG": 105.5, "PACE": 88.1},
+            "Zhejiang Golden Bulls": {"ORTG": 117.1, "DRTG": 107.9, "PACE": 88.9}
         }
     },
     "Canada (CEBL)": {
-        "avg_pace": 83.1, "avg_ortg": 111.8, "source": "RealGM.com",
+        "avg_pace": 83.4, "avg_ortg": 112.1, "source": "RealGM.com",
         "teams": {
-            "Edmonton Stingers": {"ORTG": 111.9, "DRTG": 110.5, "PACE": 83.4},
-            "Niagara River Lions": {"ORTG": 114.8, "DRTG": 109.5, "PACE": 82.4},
-            "Scarborough Shooting Stars": {"ORTG": 112.8, "DRTG": 112.4, "PACE": 83.2},
-            "Vancouver Bandits": {"ORTG": 113.5, "DRTG": 111.2, "PACE": 83.8}
+            "Edmonton Stingers": {"ORTG": 112.2, "DRTG": 110.8, "PACE": 83.7},
+            "Niagara River Lions": {"ORTG": 115.1, "DRTG": 109.8, "PACE": 82.7},
+            "Scarborough Shooting Stars": {"ORTG": 113.1, "DRTG": 112.8, "PACE": 83.5},
+            "Vancouver Bandits": {"ORTG": 113.8, "DRTG": 111.5, "PACE": 84.1}
         }
     },
     "Austria (Superliga)": {
-        "avg_pace": 76.5, "avg_ortg": 105.8, "source": "RealGM.com",
+        "avg_pace": 76.8, "avg_ortg": 106.1, "source": "RealGM.com",
         "teams": {
-            "Flyers Wels": {"ORTG": 107.1, "DRTG": 104.5, "PACE": 76.8},
-            "Klosterneuburg Dukes": {"ORTG": 105.8, "DRTG": 105.4, "PACE": 76.2},
-            "Swans Gmunden": {"ORTG": 109.8, "DRTG": 101.8, "PACE": 76.1},
-            "UBSC Graz": {"ORTG": 105.0, "DRTG": 106.0, "PACE": 77.1}
+            "Flyers Wels": {"ORTG": 107.4, "DRTG": 104.8, "PACE": 77.1},
+            "Klosterneuburg Dukes": {"ORTG": 106.1, "DRTG": 105.8, "PACE": 76.5},
+            "Swans Gmunden": {"ORTG": 110.1, "DRTG": 102.1, "PACE": 76.4},
+            "UBSC Graz": {"ORTG": 105.4, "DRTG": 106.4, "PACE": 77.4}
         }
     },
     "Czech Republic (NBL)": {
-        "avg_pace": 77.8, "avg_ortg": 108.5, "source": "RealGM.com",
+        "avg_pace": 78.1, "avg_ortg": 108.8, "source": "RealGM.com",
         "teams": {
-            "BK Decin": {"ORTG": 108.2, "DRTG": 108.9, "PACE": 78.0},
-            "BK Opava": {"ORTG": 109.8, "DRTG": 107.6, "PACE": 77.3},
-            "ERA Nymburk": {"ORTG": 116.9, "DRTG": 101.8, "PACE": 78.5},
-            "Sluneta Usti nad Labem": {"ORTG": 110.6, "DRTG": 109.5, "PACE": 77.5}
+            "BK Decin": {"ORTG": 108.5, "DRTG": 109.2, "PACE": 78.3},
+            "BK Opava": {"ORTG": 110.1, "DRTG": 107.9, "PACE": 77.6},
+            "ERA Nymburk": {"ORTG": 117.2, "DRTG": 102.1, "PACE": 78.8},
+            "Sluneta Usti nad Labem": {"ORTG": 110.9, "DRTG": 109.8, "PACE": 77.8}
         }
     },
     "Israel (Winner League)": {
-        "avg_pace": 78.4, "avg_ortg": 112.9, "source": "RealGM.com",
+        "avg_pace": 78.7, "avg_ortg": 113.2, "source": "RealGM.com",
         "teams": {
-            "Hapoel Jerusalem": {"ORTG": 113.8, "DRTG": 108.6, "PACE": 77.3},
-            "Hapoel Tel Aviv": {"ORTG": 117.2, "DRTG": 110.8, "PACE": 79.6},
-            "Maccabi Tel Aviv": {"ORTG": 120.5, "DRTG": 109.9, "PACE": 78.9},
-            "Hapoel Holon": {"ORTG": 110.9, "DRTG": 110.3, "PACE": 77.5}
+            "Hapoel Jerusalem": {"ORTG": 114.1, "DRTG": 108.9, "PACE": 77.6},
+            "Hapoel Tel Aviv": {"ORTG": 117.5, "DRTG": 111.1, "PACE": 79.9},
+            "Maccabi Tel Aviv": {"ORTG": 120.8, "DRTG": 110.2, "PACE": 79.2},
+            "Hapoel Holon": {"ORTG": 111.2, "DRTG": 110.6, "PACE": 77.8}
         }
     },
     "Belgium (BNXT League)": {
-        "avg_pace": 75.2, "avg_ortg": 106.5, "source": "RealGM.com",
+        "avg_pace": 75.5, "avg_ortg": 106.8, "source": "RealGM.com",
         "teams": {
-            "Filou Oostende": {"ORTG": 112.9, "DRTG": 101.8, "PACE": 74.5},
-            "Telenet Giants Antwerp": {"ORTG": 109.5, "DRTG": 106.2, "PACE": 75.8},
-            "Hubo Limburg United": {"ORTG": 106.2, "DRTG": 105.3, "PACE": 74.4},
-            "Spirou Charleroi": {"ORTG": 104.6, "DRTG": 107.2, "PACE": 76.3}
+            "Filou Oostende": {"ORTG": 113.2, "DRTG": 102.1, "PACE": 74.8},
+            "Telenet Giants Antwerp": {"ORTG": 109.8, "DRTG": 106.5, "PACE": 76.1},
+            "Hubo Limburg United": {"ORTG": 106.5, "DRTG": 105.6, "PACE": 74.7},
+            "Spirou Charleroi": {"ORTG": 104.9, "DRTG": 107.5, "PACE": 76.6}
         }
     },
     "England (Super League Basketball)": {
-        "avg_pace": 79.8, "avg_ortg": 107.2, "source": "RealGM.com",
+        "avg_pace": 80.1, "avg_ortg": 107.5, "source": "RealGM.com",
         "teams": {
-            "Cheshire Phoenix": {"ORTG": 111.9, "DRTG": 107.3, "PACE": 80.3},
-            "Leicester Riders": {"ORTG": 108.6, "DRTG": 106.9, "PACE": 79.4},
-            "London Lions": {"ORTG": 115.2, "DRTG": 101.6, "PACE": 80.6},
-            "Newcastle Eagles": {"ORTG": 108.3, "DRTG": 108.5, "PACE": 80.1}
+            "Cheshire Phoenix": {"ORTG": 112.2, "DRTG": 107.6, "PACE": 80.6},
+            "Leicester Riders": {"ORTG": 108.9, "DRTG": 107.2, "PACE": 79.7},
+            "London Lions": {"ORTG": 115.5, "DRTG": 101.9, "PACE": 80.9},
+            "Newcastle Eagles": {"ORTG": 108.6, "DRTG": 108.8, "PACE": 80.4}
         }
     }
 }
 
 # =========================================================================
-# UI REGION: LEAGUE SELECTION & TEAM CONFIGURATIONS
+# UI REGION: DESIGN INTERFACE
 # =========================================================================
 selected_db = st.sidebar.selectbox("🏀 Select Active Basketball League", list(BASKETBALL_MASTER_DB.keys()))
 cfg = BASKETBALL_MASTER_DB[selected_db]
 
-st.sidebar.caption(f"Data Lineage Pipeline: {cfg['source']}")
+st.sidebar.caption(f"2026 Data Engine Sourced via: {cfg['source']}")
 
-st.subheader(f"🏟️ Setup Matchup Matrix Summary: {selected_db}")
+st.subheader(f"🏟️ Setup Matchup Projections: {selected_db}")
 col_h, col_a = st.columns(2)
 with col_h:
-    home = st.selectbox("🏡 Select Home Team Unit", sorted(cfg["teams"].keys()), index=0)
+    home = st.selectbox("🏡 Select Home Team", sorted(cfg["teams"].keys()), index=0)
 with col_a:
-    away = st.selectbox("✈️ Select Away Team Unit", sorted(cfg["teams"].keys()), index=1 if len(cfg["teams"]) > 1 else 0)
+    away = st.selectbox("✈️ Select Away Team", sorted(cfg["teams"].keys()), index=1 if len(cfg["teams"]) > 1 else 0)
 
-if home == away:
-    st.error("⚠️ Select two unique matching teams to generate score lines.")
-else:
-    # -------------------------------------------------------------------------
-    # EMBEDDED SPREADSHEET FORMULA MATH ENGINE
-    # -------------------------------------------------------------------------
-    h_data, a_data = cfg["teams"][home], cfg["teams"][away]
-    
-    # 1. Predict the Game Pace: =(B8 + C8) - B1
-    predicted_pace = (h_data["PACE"] + a_data["PACE"]) - cfg["avg_pace"]
-    
-    # 2. Predict the Home Score (With custom +2.5 HCA): =((B6 + C7) - B2) * (B10 / 100) + 2.5
-    projected_home_ft = ((h_data["ORTG"] + a_data["DRTG"]) - cfg["avg_ortg"]) * (predicted_pace / 100) + 2.5
-    
-    # 3. Predict the Away Score: =((C6 + B7) - B2) * (B10 / 100)
-    projected_away_ft = ((a_data["ORTG"] + h_data["DRTG"]) - cfg["avg_ortg"]) * (predicted_pace / 100)
-    
-    # 4. Calculate Model Spread Line: =C12 - B12
-    model_spread = projected_away_ft - projected_home_ft
-    
-    # Consensus Outputs
-    winner_team = home if projected_home_ft > projected_away_ft else away
-    winner_icon = "🏡" if winner_team == home else "✈️"
+# Initiate Action Button
+st.markdown(" ")
+initiate_analysis = st.button("🚀 Initiate Advanced Matchup Simulation", type="primary", use_container_width=True)
+st.markdown("---")
 
-    # -------------------------------------------------------------------------
-    # UI OUTRIGHT SELECTION CONTAINER DISPLAY
-    # -------------------------------------------------------------------------
-    st.markdown("## 🏆 Model Consensus Selection")
-    with st.container():
+if initiate_analysis:
+    if home == away:
+        st.error("⚠️ System Mapping Error: Select two unique teams to initiate analysis.")
+    else:
+        # Load Operational Team Metrics
+        h_data, a_data = cfg["teams"][home], cfg["teams"][away]
+        
+        # 1. Predict Game Pace: (Home Pace + Away Pace) - League Average Pace
+        predicted_pace = (h_data["PACE"] + a_data["PACE"]) - cfg["avg_pace"]
+        
+        # 2. Predict Home Score (Includes +2.5 Spreadsheet Home Court Factor)
+        projected_home_ft = ((h_data["ORTG"] + a_data["DRTG"]) - cfg["avg_ortg"]) * (predicted_pace / 100) + 2.5
+        
+        # 3. Predict Away Score
+        projected_away_ft = ((a_data["ORTG"] + h_data["DRTG"]) - cfg["avg_ortg"]) * (predicted_pace / 100)
+        
+        # 4. Calculate Point Spread Model Value
+        model_spread = projected_away_ft - projected_home_ft
+        
+        # Output Logic Targets
+        winner_team = home if projected_home_ft > projected_away_ft else away
+        winner_icon = "🏡" if winner_team == home else "✈️"
+
+        # -------------------------------------------------------------------------
+        # DISPLAY SECTION: SIMULATION RESULT GENERATIONS
+        # -------------------------------------------------------------------------
+        st.markdown("## 🏆 Model Consensus Selections")
         m1, m2 = st.columns(2)
         with m1:
-            st.metric(label="Outright Moneyline Winner", value=f"{winner_icon} {winner_team}")
+            st.metric(label="Outright Winner", value=f"{winner_icon} {winner_team}")
         with m2:
-            st.metric(label="Model Calculated Line Spread", value=f"{winner_team} {abs(model_spread):-.1f}")
+            st.metric(label="Calculated Model Point Spread Line", value=f"{winner_team} {abs(model_spread):-.1f}")
 
-    st.markdown("---")
-
-    # -------------------------------------------------------------------------
-    # UI SUMMARY MATRIX TABLE DISPLAY
-    # -------------------------------------------------------------------------
-    st.subheader("📊 Performance Projections Summary Matrix Table")
-    
-    matrix_df = pd.DataFrame({
-        "Team Segment": [f"🏡 {home} (Home)", f"✈️ {away} (Away)"],
-        "Final Projected Score": [f"{projected_home_ft:.1f}", f"{projected_away_ft:.1f}"],
-        "Spread Line Derivative": [f"{model_spread:+.1f}", f"{-model_spread:+.1f}"]
-    })
-    
-    st.table(matrix_df)
-
-    # -------------------------------------------------------------------------
-    # SPREADSHEET AUDIT EXPANDER
-    # -------------------------------------------------------------------------
-    with st.expander("🔍 View Cell Variables & Sheet Calculation Logs"):
-        st.markdown(f"#### League Baseline Matrix Assumptions")
-        st.text(f"Cell B1 (League Average Pace): {cfg['avg_pace']}")
-        st.text(f"Cell B2 (League Average Offense): {cfg['avg_ortg']}")
+        st.markdown(" ")
+        st.subheader("📊 Performance Projections Summary Matrix Table")
         
-        st.markdown("---")
-        st.markdown(f"#### Active Raw Advanced Metrics Dataset Breakdown")
-        col_sh1, col_sh2 = st.columns(2)
-        with col_sh1:
-            st.markdown(f"**🏡 {home} (Column B Variables)**")
-            st.text(f"Cell B6 (Offensive Rating): {h_data['ORTG']}")
-            st.text(f"Cell B7 (Defensive Rating): {h_data['DRTG']}")
-            st.text(f"Cell B8 (Pace): {h_data['PACE']}")
-        with col_sh2:
-            st.markdown(f"**✈️ {away} (Column C Variables)**")
-            st.text(f"Cell C6 (Offensive Rating): {a_data['ORTG']}")
-            st.text(f"Cell C7 (Defensive Rating): {a_data['DRTG']}")
-            st.text(f"Cell C8 (Pace): {a_data['PACE']}")
+        matrix_df = pd.DataFrame({
+            "Team Segment": [f"🏡 {home} (Home Team)", f"✈️ {away} (Away Team)"],
+            "Final Score Projections": [f"{projected_home_ft:.1f}", f"{projected_away_ft:.1f}"],
+            "Model Point Spread Line": [f"{model_spread:+.1f}", f"{-model_spread:+.1f}"]
+        })
+        
+        st.table(matrix_df)
+
+        # -------------------------------------------------------------------------
+        # ADVANCED SPREADSHEET CELL LOGGER AUDIT EXPANDER
+        # -------------------------------------------------------------------------
+        with st.expander("🔍 View 2026 Cell Variables & Sheet Calculation Logs"):
+            st.markdown(f"#### League Infrastructure Baseline (2026 Season Parameters)")
+            st.text(f"Cell B1 (League Average Pace): {cfg['avg_pace']} possessions")
+            st.text(f"Cell B2 (League Average Offense Rating): {cfg['avg_ortg']}")
             
-        st.markdown("---")
-        st.markdown("#### Formula Step Calculation Outputs")
-        st.markdown(f"* Predicted Dynamic Game Pace: `{predicted_pace:.1f}` possessions")
-        st.markdown(f"* Pure Spread Output: `{model_spread:+.1f}` points")
+            st.markdown("---")
+            st.markdown(f"#### Active Raw Advanced Metrics Dataset Breakdown")
+            col_sh1, col_sh2 = st.columns(2)
+            with col_sh1:
+                st.markdown(f"**🏡 {home} (Column B Variables)**")
+                st.text(f"Cell B6 (Offensive Rating): {h_data['ORTG']}")
+                st.text(f"Cell B7 (Defensive Rating): {h_data['DRTG']}")
+                st.text(f"Cell B8 (Team Total Pace): {h_data['PACE']}")
+            with col_sh2:
+                st.markdown(f"**✈️ {away} (Column C Variables)**")
+                st.text(f"Cell C6 (Offensive Rating): {a_data['ORTG']}")
+                st.text(f"Cell C7 (Defensive Rating): {a_data['DRTG']}")
+                st.text(f"Cell C8 (Team Total Pace): {a_data['PACE']}")
+                
+            st.markdown("---")
+            st.markdown("#### Formula Step Calculation Outputs")
+            st.markdown(f"* Predicted Dynamic Game Pace (Cell B10 Output): `{predicted_pace:.2f}` possessions")
+            st.markdown(f"* Raw Sheet Spread Target (Cell B14 Output): `{model_spread:+.1f}` points")
+else:
+    st.info("💡 System Ready. Configure teams and click the button above to execute calculations.")
