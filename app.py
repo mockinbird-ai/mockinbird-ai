@@ -4,16 +4,16 @@ import pandas as pd
 # Page Setup
 st.set_page_config(page_title="Pro Hoops Predictor 2026", page_icon="🏀", layout="centered")
 st.title("🏀 Pro Hoops 2026 Matrix Prediction Engine")
-st.markdown("### Google Sheets Advanced Spreadsheet Math Pipeline (v2026.1)")
+st.markdown("### Google Sheets Advanced Spreadsheet Math Pipeline (v2026.2)")
 st.markdown("---")
 
 # =========================================================================
-# COMPREHENSIVE BASKETBALL REGISTRY DATABASE (UPDATED TO 2026 STATUS)
+# COMPREHENSIVE BASKETBALL REGISTRY DATABASE (UPDATED BASELINES)
 # Sourced from Basketball-Reference.com & RealGM.com 2026 Baselines
 # =========================================================================
 BASKETBALL_MASTER_DB = {
     "NBA": {
-        "avg_pace": 99.2, "avg_ortg": 115.6, "source": "Basketball-Reference.com",
+        "avg_pace": 99.4, "avg_ortg": 115.7, "source": "Basketball-Reference.com",
         "teams": {
             "Atlanta Hawks": {"ORTG": 114.2, "DRTG": 116.5, "PACE": 100.8},
             "Boston Celtics": {"ORTG": 122.1, "DRTG": 111.4, "PACE": 97.5},
@@ -242,7 +242,6 @@ with col_h:
 with col_a:
     away = st.selectbox("✈️ Select Away Team", sorted(cfg["teams"].keys()), index=1 if len(cfg["teams"]) > 1 else 0)
 
-# Initiate Action Button
 st.markdown(" ")
 initiate_analysis = st.button("🚀 Initiate Advanced Matchup Simulation", type="primary", use_container_width=True)
 st.markdown("---")
