@@ -14,18 +14,18 @@ st.markdown("---")
 BASKETBALL_MASTER_DB = {
     "Puerto Rico (BSN)": {
         "teams": {
-            "Atléticos de San Germán": {"ORTG": 114.8, "DRTG": 109.8, "PACE": 84.6},
-            "Cangrejeros de Santurce": {"ORTG": 111.4, "DRTG": 112.8, "PACE": 83.8},
-            "Capitanes de Arecibo": {"ORTG": 116.5, "DRTG": 113.4, "PACE": 84.9},
-            "Criollos de Caguas": {"ORTG": 117.8, "DRTG": 112.1, "PACE": 85.5},
-            "Gigantes de Carolina": {"ORTG": 114.1, "DRTG": 112.5, "PACE": 84.1},
-            "Indios de Mayagüez": {"ORTG": 110.9, "DRTG": 112.2, "PACE": 85.0},
-            "Leones de Ponce": {"ORTG": 111.2, "DRTG": 114.3, "PACE": 83.9},
-            "Mets de Guaynabo": {"ORTG": 113.8, "DRTG": 112.9, "PACE": 83.3},
-            "Osos de Manatí": {"ORTG": 114.5, "DRTG": 116.4, "PACE": 85.1},
-            "Piratas de Quebradillas": {"ORTG": 113.0, "DRTG": 114.8, "PACE": 85.6},
-            "Santeros de Aguada": {"ORTG": 112.5, "DRTG": 113.1, "PACE": 84.4},
-            "Vaqueros de Bayamón": {"ORTG": 116.9, "DRTG": 108.5, "PACE": 83.2}
+            "Atléticos de San Germán": {"ORTG": 116.9, "DRTG": 110.6, "PACE": 84.6},
+            "Criollos de Caguas": {"ORTG": 120.0, "DRTG": 114.8, "PACE": 85.5},
+            "Vaqueros de Bayamón": {"ORTG": 112.0, "DRTG": 107.7, "PACE": 83.2},
+            "Leones de Ponce": {"ORTG": 120.1, "DRTG": 117.3, "PACE": 83.9},
+            "Gigantes de Carolina": {"ORTG": 117.9, "DRTG": 116.4, "PACE": 84.1},
+            "Cangrejeros de Santurce": {"ORTG": 114.9, "DRTG": 113.8, "PACE": 83.8},
+            "Indios de Mayagüez": {"ORTG": 116.4, "DRTG": 115.6, "PACE": 85.0},
+            "Capitanes de Arecibo": {"ORTG": 115.4, "DRTG": 115.4, "PACE": 84.9},
+            "Osos de Manatí": {"ORTG": 113.1, "DRTG": 116.4, "PACE": 85.1},
+            "Mets de Guaynabo": {"ORTG": 114.2, "DRTG": 120.6, "PACE": 83.3},
+            "Santeros de Aguada": {"ORTG": 112.9, "DRTG": 119.5, "PACE": 84.4},
+            "Piratas de Quebradillas": {"ORTG": 110.8, "DRTG": 117.9, "PACE": 85.6}
         }
     },
     "Spain (Liga ACB)": {
@@ -233,7 +233,7 @@ teams_dict = league_data["teams"]
 
 # =========================================================================
 # DYNAMIC MATHEMATICAL CALCULATIONS (LEAGUE AVERAGES DERIVATION)
-# Computes the true runtime means from RealGM active team data arrays
+# Computes runtime means from updated RealGM active data arrays
 # =========================================================================
 total_teams = len(teams_dict)
 sum_pace = sum(team_metrics["PACE"] for team_metrics in teams_dict.values())
