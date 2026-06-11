@@ -4,15 +4,15 @@ import pandas as pd
 # Page Configuration
 st.set_page_config(page_title="Global Hoops Predictor 2026", page_icon="🏀", layout="centered")
 st.title("🏀 Pro Basketball 2026 Matrix Prediction Engine")
-st.markdown("### Google Sheets Advanced Spreadsheet Math Pipeline (v2026.11)")
+st.markdown("### RealGM Data-Driven Math Pipeline (v2026.12)")
 st.markdown("---")
 
 # =========================================================================
-# SYSTEM MASTER ADVANCED METRICS REGISTRY - 12 COUNTRIES COMPLETE
+# SYSTEM MASTER DB - REALGM ACTIVE 2026 CORE REGISTER
+# Total Pace (Possessions), Total Off. Rating, and Total Def. Rating
 # =========================================================================
 BASKETBALL_MASTER_DB = {
     "Puerto Rico (BSN)": {
-        "avg_pace": 84.2, "avg_ortg": 112.8,
         "teams": {
             "Atléticos de San Germán": {"ORTG": 114.8, "DRTG": 109.8, "PACE": 84.6},
             "Cangrejeros de Santurce": {"ORTG": 111.4, "DRTG": 112.8, "PACE": 83.8},
@@ -29,7 +29,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "Spain (Liga ACB)": {
-        "avg_pace": 77.2, "avg_ortg": 112.4,
         "teams": {
             "FC Barcelona": {"ORTG": 116.8, "DRTG": 107.5, "PACE": 77.2},
             "Real Madrid": {"ORTG": 118.6, "DRTG": 106.5, "PACE": 76.3},
@@ -52,7 +51,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "France (LNB Élite)": {
-        "avg_pace": 75.8, "avg_ortg": 110.2,
         "teams": {
             "AS Monaco": {"ORTG": 116.9, "DRTG": 104.1, "PACE": 74.5},
             "Paris Basketball": {"ORTG": 115.2, "DRTG": 107.5, "PACE": 77.1},
@@ -73,7 +71,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "Germany (easyCredit BBL)": {
-        "avg_pace": 78.4, "avg_ortg": 111.5,
         "teams": {
             "FC Bayern Munich": {"ORTG": 117.9, "DRTG": 106.5, "PACE": 77.9},
             "ALBA Berlin": {"ORTG": 112.1, "DRTG": 110.9, "PACE": 79.3},
@@ -96,7 +93,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "Italy (Lega Basket Serie A)": {
-        "avg_pace": 76.2, "avg_ortg": 112.1,
         "teams": {
             "Olimpia Milano": {"ORTG": 116.2, "DRTG": 107.1, "PACE": 75.2},
             "Virtus Bologna": {"ORTG": 117.6, "DRTG": 108.2, "PACE": 76.3},
@@ -117,7 +113,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "England (Super League Basketball)": {
-        "avg_pace": 80.1, "avg_ortg": 107.5,
         "teams": {
             "London Lions": {"ORTG": 115.5, "DRTG": 101.9, "PACE": 80.9},
             "Cheshire Phoenix": {"ORTG": 112.2, "DRTG": 107.6, "PACE": 80.6},
@@ -131,7 +126,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "Portugal (Liga Betclic)": {
-        "avg_pace": 78.3, "avg_ortg": 107.1,
         "teams": {
             "SL Benfica": {"ORTG": 113.9, "DRTG": 103.5, "PACE": 77.7},
             "FC Porto": {"ORTG": 112.2, "DRTG": 105.1, "PACE": 78.5},
@@ -148,7 +142,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "Türkiye (BSL)": {
-        "avg_pace": 77.6, "avg_ortg": 113.5,
         "teams": {
             "Anadolu Efes": {"ORTG": 119.2, "DRTG": 107.5, "PACE": 77.1},
             "Fenerbahce Beko": {"ORTG": 118.9, "DRTG": 106.8, "PACE": 76.8},
@@ -169,7 +162,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "New Zealand (NBL)": {
-        "avg_pace": 84.8, "avg_ortg": 110.5,
         "teams": {
             "Canterbury Rams": {"ORTG": 115.1, "DRTG": 106.4, "PACE": 84.4},
             "Auckland Tuatara": {"ORTG": 112.8, "DRTG": 108.9, "PACE": 85.2},
@@ -185,7 +177,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "Greece (GBL)": {
-        "avg_pace": 74.8, "avg_ortg": 110.8,
         "teams": {
             "Panathinaikos AKTOR": {"ORTG": 120.5, "DRTG": 103.2, "PACE": 74.5},
             "Olympiacos Piraeus": {"ORTG": 119.8, "DRTG": 102.8, "PACE": 74.1},
@@ -202,7 +193,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "China (CBA)": {
-        "avg_pace": 88.5, "avg_ortg": 111.9,
         "teams": {
             "Liaoning Flying Leopards": {"ORTG": 115.1, "DRTG": 104.2, "PACE": 87.5},
             "Xinjiang Flying Tigers": {"ORTG": 112.8, "DRTG": 105.5, "PACE": 88.1},
@@ -219,7 +209,6 @@ BASKETBALL_MASTER_DB = {
         }
     },
     "Austria (Superliga)": {
-        "avg_pace": 76.8, "avg_ortg": 106.1,
         "teams": {
             "Swans Gmunden": {"ORTG": 110.1, "DRTG": 102.1, "PACE": 76.4},
             "Flyers Wels": {"ORTG": 107.4, "DRTG": 104.8, "PACE": 77.1},
@@ -236,49 +225,63 @@ BASKETBALL_MASTER_DB = {
 }
 
 # =========================================================================
-# CONTROL SIDEBAR: CLEAN DYNAMIC LAYOUT & CONFIGURATIONS
+# SELECTION HANDLING
 # =========================================================================
 selected_db = st.sidebar.selectbox("🏀 Select Active Basketball League", list(BASKETBALL_MASTER_DB.keys()))
-cfg = BASKETBALL_MASTER_DB[selected_db]
+league_data = BASKETBALL_MASTER_DB[selected_db]
+teams_dict = league_data["teams"]
 
+# =========================================================================
+# DYNAMIC MATHEMATICAL CALCULATIONS (LEAGUE AVERAGES DERIVATION)
+# Computes the true runtime means from RealGM active team data arrays
+# =========================================================================
+total_teams = len(teams_dict)
+sum_pace = sum(team_metrics["PACE"] for team_metrics in teams_dict.values())
+sum_ortg = sum(team_metrics["ORTG"] for team_metrics in teams_dict.values())
+
+computed_avg_pace = sum_pace / total_teams
+computed_avg_ortg = sum_ortg / total_teams
+
+# =========================================================================
+# CONTROL SIDEBAR UI DISPLAY
+# =========================================================================
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 🗓️ Weekly Advanced Stats Override Panel")
-st.sidebar.caption("Tweak baseline league mechanics dynamically based on live RealGM data updates.")
+st.sidebar.markdown("### 🗓️ Live Calculated League Parameters")
+st.sidebar.caption("Derived directly from RealGM 2026 total advanced team sets.")
 
+# Interactive fields auto-populate using our dynamic math variables
 weekly_pace = st.sidebar.number_input(
-    "Adjust League Average Pace Base", 
-    min_value=60.0, max_value=110.0, value=float(cfg["avg_pace"]), step=0.1
+    "Active League Average Pace", 
+    min_value=60.0, max_value=110.0, value=float(computed_avg_pace), step=0.1
 )
 weekly_ortg = st.sidebar.number_input(
-    "Adjust League Average Offense Rating", 
-    min_value=90.0, max_value=130.0, value=float(cfg["avg_ortg"]), step=0.1
+    "Active League Average Offense Rating", 
+    min_value=90.0, max_value=130.0, value=float(computed_avg_ortg), step=0.1
 )
 
 st.sidebar.caption("Data Registry Source: RealGM.com Active 2026 Profiles")
 
-# Matchup Configuration Panel (Main Interface)
+# Matchup Configuration Panel (Main Screen)
 st.subheader(f"🏟️ Setup Matchup Projections: {selected_db}")
 col_h, col_a = st.columns(2)
 with col_h:
-    home = st.selectbox("🏡 Select Home Team", sorted(cfg["teams"].keys()), index=0)
+    home = st.selectbox("🏡 Select Home Team", sorted(teams_dict.keys()), index=0)
 with col_a:
-    away = st.selectbox("✈️ Select Away Team", sorted(cfg["teams"].keys()), index=1 if len(cfg["teams"]) > 1 else 0)
+    away = st.selectbox("✈️ Select Away Team", sorted(teams_dict.keys()), index=1 if total_teams > 1 else 0)
 
-# =========================================================================
-# CLEANED UP EXPANDER PANEL FOR INDIVIDUAL SQUAD ADJUSTMENTS
-# =========================================================================
+# Collapsible Sidebar Customizations Panel
 with st.sidebar.expander("📝 Edit Selected Team Advanced Overrides", expanded=False):
     st.markdown(f"**🏡 Home: {home}**")
-    h_pace = st.number_input("Team Pace", value=float(cfg["teams"][home]["PACE"]), key="hp", step=0.1)
-    h_ortg = st.number_input("Offensive Rating", value=float(cfg["teams"][home]["ORTG"]), key="ho", step=0.1)
-    h_drtg = st.number_input("Defensive Rating", value=float(cfg["teams"][home]["DRTG"]), key="hd", step=0.1)
+    h_pace = st.number_input("Team Pace", value=float(teams_dict[home]["PACE"]), key="hp", step=0.1)
+    h_ortg = st.number_input("Offensive Rating", value=float(teams_dict[home]["ORTG"]), key="ho", step=0.1)
+    h_drtg = st.number_input("Defensive Rating", value=float(teams_dict[home]["DRTG"]), key="hd", step=0.1)
     
     st.markdown("---")
     
     st.markdown(f"**✈️ Away: {away}**")
-    a_pace = st.number_input("Team Pace", value=float(cfg["teams"][away]["PACE"]), key="ap", step=0.1)
-    a_ortg = st.number_input("Offensive Rating", value=float(cfg["teams"][away]["ORTG"]), key="ao", step=0.1)
-    a_drtg = st.number_input("Defensive Rating", value=float(cfg["teams"][away]["DRTG"]), key="ad", step=0.1)
+    a_pace = st.number_input("Team Pace", value=float(teams_dict[away]["PACE"]), key="ap", step=0.1)
+    a_ortg = st.number_input("Offensive Rating", value=float(teams_dict[away]["ORTG"]), key="ao", step=0.1)
+    a_drtg = st.number_input("Defensive Rating", value=float(teams_dict[away]["DRTG"]), key="ad", step=0.1)
 
 st.markdown(" ")
 initiate_analysis = st.button("🚀 Run Predictive Analysis", type="primary", use_container_width=True)
@@ -288,14 +291,14 @@ if initiate_analysis:
     if home == away:
         st.error("⚠️ System Mapping Error: Select two unique teams to initiate analysis.")
     else:
-        # 1. Advanced Sheet Metric Calculus: Game Pace
+        # 1. Advanced Sheet Metric Calculus: Game Pace Vector
         predicted_pace = (h_pace + a_pace) - weekly_pace
         
-        # 2. Predicted Score Formulas (Includes strict +3.5 Home Court Advantage Variable)
+        # 2. Predicted Score Formulas (Includes strict +3.5 Home Court Advantage)
         projected_home_ft = ((h_ortg + a_drtg) - weekly_ortg) * (predicted_pace / 100) + 3.5
         projected_away_ft = ((a_ortg + h_drtg) - weekly_ortg) * (predicted_pace / 100)
         
-        # 3. Half-Time (HT) Projections (Halved total expected production distribution)
+        # 3. Half-Time (HT) Projections (Distributed equally across halves)
         projected_home_ht = projected_home_ft / 2
         projected_away_ht = projected_away_ft / 2
         
@@ -306,14 +309,14 @@ if initiate_analysis:
         winner_team = home if projected_home_ft > projected_away_ft else away
         winner_icon = "🏡" if winner_team == home else "✈️"
 
-        # UI Production Matrix Output Displays
+        # UI Matrix Output Displays
         st.markdown("## 📊 Model Projections Summary Matrix")
         st.caption("🎯 Predicted Direct Moneyline Outright Winner")
         st.markdown(f"### {winner_icon} {winner_team}")
 
         st.markdown(" ")
         
-        # Formatted Matrix Table Matchup
+        # Clean Output Data Table Matrix
         matrix_df = pd.DataFrame({
             "Team Segment": [f"🏡 {home} (Home)", f"✈️ {away} (Away)"],
             "Half Time (HT) Score": [f"{projected_home_ht:.1f}", f"{projected_away_ht:.1f}"],
@@ -323,11 +326,13 @@ if initiate_analysis:
         
         st.table(matrix_df)
 
-        # Bottom Auditing Drawer
+        # Bottom Structural Audit Registry
         with st.expander("🔍 View Raw Advanced Analytical Variables Used"):
             st.markdown(f"#### Active Operational Infrastructure Baseline")
-            st.text(f"Adjusted League Average Pace Base: {weekly_pace} possessions")
-            st.text(f"Adjusted League Average Offense Rating Base: {weekly_ortg}")
+            st.text(f"RealGM Derived Database Base Pace: {computed_avg_pace:.2f}")
+            st.text(f"RealGM Derived Database Base ORTG: {computed_avg_ortg:.2f}")
+            st.text(f"Runtime UI Overridden League Average Pace: {weekly_pace}")
+            st.text(f"Runtime UI Overridden League Average ORTG: {weekly_ortg}")
             st.text(f"Applied Home Court Advantage Variable Constant: +3.5 points")
             st.markdown(f"* Predicted Dynamic Game Pace: `{predicted_pace:.2f}` possessions")
 else:
