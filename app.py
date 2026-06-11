@@ -4,7 +4,7 @@ import pandas as pd
 # Page Configuration
 st.set_page_config(page_title="Global Hoops Predictor 2026", page_icon="🏀", layout="centered")
 st.title("🏀 Pro Basketball 2026 Matrix Prediction Engine")
-st.markdown("### Google Sheets Advanced Spreadsheet Math Pipeline (v2026.10)")
+st.markdown("### Google Sheets Advanced Spreadsheet Math Pipeline (v2026.11)")
 st.markdown("---")
 
 # =========================================================================
@@ -236,7 +236,7 @@ BASKETBALL_MASTER_DB = {
 }
 
 # =========================================================================
-# CONTROL SIDEBAR: LIVE CONFIGURATION & WEEKLY ADVANCED OVERRIDES
+# CONTROL SIDEBAR: CLEAN DYNAMIC LAYOUT & CONFIGURATIONS
 # =========================================================================
 selected_db = st.sidebar.selectbox("🏀 Select Active Basketball League", list(BASKETBALL_MASTER_DB.keys()))
 cfg = BASKETBALL_MASTER_DB[selected_db]
@@ -256,7 +256,7 @@ weekly_ortg = st.sidebar.number_input(
 
 st.sidebar.caption("Data Registry Source: RealGM.com Active 2026 Profiles")
 
-# Matchup Configuration Panel
+# Matchup Configuration Panel (Main Interface)
 st.subheader(f"🏟️ Setup Matchup Projections: {selected_db}")
 col_h, col_a = st.columns(2)
 with col_h:
@@ -264,22 +264,24 @@ with col_h:
 with col_a:
     away = st.selectbox("✈️ Select Away Team", sorted(cfg["teams"].keys()), index=1 if len(cfg["teams"]) > 1 else 0)
 
-# Weekly Dynamic Overrides Panel for Specific Selected Teams
-with st.expander("📝 Edit Individual Selected Team Core Stats (Optional Weekly Tuning)"):
-    col_t1, col_t2 = col_h, col_a # match alignment blocks
-    with col_t1:
-        st.markdown(f"**🏡 {home} overrides**")
-        h_pace = st.number_input("Team Pace", value=float(cfg["teams"][home]["PACE"]), key="hp", step=0.1)
-        h_ortg = st.number_input("Offensive Rating", value=float(cfg["teams"][home]["ORTG"]), key="ho", step=0.1)
-        h_drtg = st.number_input("Defensive Rating", value=float(cfg["teams"][home]["DRTG"]), key="hd", step=0.1)
-    with col_t2:
-        st.markdown(f"**✈️ {away} overrides**")
-        a_pace = st.number_input("Team Pace", value=float(cfg["teams"][away]["PACE"]), key="ap", step=0.1)
-        a_ortg = st.number_input("Offensive Rating", value=float(cfg["teams"][away]["ORTG"]), key="ao", step=0.1)
-        a_drtg = st.number_input("Defensive Rating", value=float(cfg["teams"][away]["DRTG"]), key="ad", step=0.1)
+# =========================================================================
+# CLEANED UP EXPANDER PANEL FOR INDIVIDUAL SQUAD ADJUSTMENTS
+# =========================================================================
+with st.sidebar.expander("📝 Edit Selected Team Advanced Overrides", expanded=False):
+    st.markdown(f"**🏡 Home: {home}**")
+    h_pace = st.number_input("Team Pace", value=float(cfg["teams"][home]["PACE"]), key="hp", step=0.1)
+    h_ortg = st.number_input("Offensive Rating", value=float(cfg["teams"][home]["ORTG"]), key="ho", step=0.1)
+    h_drtg = st.number_input("Defensive Rating", value=float(cfg["teams"][home]["DRTG"]), key="hd", step=0.1)
+    
+    st.markdown("---")
+    
+    st.markdown(f"**✈️ Away: {away}**")
+    a_pace = st.number_input("Team Pace", value=float(cfg["teams"][away]["PACE"]), key="ap", step=0.1)
+    a_ortg = st.number_input("Offensive Rating", value=float(cfg["teams"][away]["ORTG"]), key="ao", step=0.1)
+    a_drtg = st.number_input("Defensive Rating", value=float(cfg["teams"][away]["DRTG"]), key="ad", step=0.1)
 
 st.markdown(" ")
-initiate_analysis = st.button("🚀 Initiate Advanced Matchup Simulation", type="primary", use_container_width=True)
+initiate_analysis = st.button("🚀 Run Predictive Analysis", type="primary", use_container_width=True)
 st.markdown("---")
 
 if initiate_analysis:
@@ -289,47 +291,44 @@ if initiate_analysis:
         # 1. Advanced Sheet Metric Calculus: Game Pace
         predicted_pace = (h_pace + a_pace) - weekly_pace
         
-        # 2. Predicted Home Score Formula (Includes Strict Home Court Advantage Factor of +3.5)
+        # 2. Predicted Score Formulas (Includes strict +3.5 Home Court Advantage Variable)
         projected_home_ft = ((h_ortg + a_drtg) - weekly_ortg) * (predicted_pace / 100) + 3.5
-        
-        # 3. Predicted Away Score Formula
         projected_away_ft = ((a_ortg + h_drtg) - weekly_ortg) * (predicted_pace / 100)
         
-        # 4. Computed Spread Vector line
+        # 3. Half-Time (HT) Projections (Halved total expected production distribution)
+        projected_home_ht = projected_home_ft / 2
+        projected_away_ht = projected_away_ft / 2
+        
+        # 4. Point Spread Derivative Vector
         model_spread = projected_away_ft - projected_home_ft
         
-        # Assign UI Output Flags
+        # Assign Winner Flags
         winner_team = home if projected_home_ft > projected_away_ft else away
         winner_icon = "🏡" if winner_team == home else "✈️"
 
-        # Display Data Targets
-        st.markdown("## 🏆 Model Consensus Selections")
-        m1, m2 = st.columns(2)
-        with m1:
-            st.metric(label="Outright Winner", value=f"{winner_icon} {winner_team}")
-        with m2:
-            st.metric(label="Calculated Model Point Spread Line", value=f"{winner_team} {abs(model_spread):-.1f}")
+        # UI Production Matrix Output Displays
+        st.markdown("## 📊 Model Projections Summary Matrix")
+        st.caption("🎯 Predicted Direct Moneyline Outright Winner")
+        st.markdown(f"### {winner_icon} {winner_team}")
 
         st.markdown(" ")
-        st.subheader("📊 Performance Projections Summary Matrix Table")
         
+        # Formatted Matrix Table Matchup
         matrix_df = pd.DataFrame({
-            "Team Segment": [f"🏡 {home} (Home Team)", f"✈️ {away} (Away Team)"],
-            "Final Score Projections": [f"{projected_home_ft:.1f}", f"{projected_away_ft:.1f}"],
+            "Team Segment": [f"🏡 {home} (Home)", f"✈️ {away} (Away)"],
+            "Half Time (HT) Score": [f"{projected_home_ht:.1f}", f"{projected_away_ht:.1f}"],
+            "Final Score (FT)": [f"{projected_home_ft:.1f}", f"{projected_away_ft:.1f}"],
             "Model Point Spread Line": [f"{-model_spread:+.1f}", f"{model_spread:+.1f}"]
         })
         
         st.table(matrix_df)
 
-        # Audit Registry Expander Panel
-        with st.expander("🔍 View 2026 Cell Variables & Sheet Calculation Logs"):
-            st.markdown(f"#### Active League Infrastructure Baseline")
+        # Bottom Auditing Drawer
+        with st.expander("🔍 View Raw Advanced Analytical Variables Used"):
+            st.markdown(f"#### Active Operational Infrastructure Baseline")
             st.text(f"Adjusted League Average Pace Base: {weekly_pace} possessions")
             st.text(f"Adjusted League Average Offense Rating Base: {weekly_ortg}")
             st.text(f"Applied Home Court Advantage Variable Constant: +3.5 points")
-            st.markdown("---")
-            st.markdown("#### Formula Step Calculation Outputs")
             st.markdown(f"* Predicted Dynamic Game Pace: `{predicted_pace:.2f}` possessions")
-            st.markdown(f"* Raw Sheet Spread Target Value: `{model_spread:+.1f}` points")
 else:
-    st.info("💡 System Ready. Configure teams and click the button above to execute calculations.")
+    st.info("💡 System Ready. Configure teams and select Run Predictive Analysis to view calculations.")
