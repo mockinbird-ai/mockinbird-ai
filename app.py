@@ -319,4 +319,147 @@ GLOBAL_LEAGUE_DATABASE = {
         }
     },
     "Brazil (NBB)": {
-        "avg_pace": 76.8, "avg_ortg": 109.5, "hca_bon
+        "avg_pace": 76.8, "avg_ortg": 109.5, "hca_bonus": 2.5,
+        "teams": {
+            "Bauru": {"ORTG": 109.2, "DRTG": 108.5, "PACE": 76.4},
+            "Brasilia Basquete": {"ORTG": 101.5, "DRTG": 114.2, "PACE": 77.8},
+            "Caxias do Sul": {"ORTG": 103.8, "DRTG": 109.1, "PACE": 75.9},
+            "Cerrado Basquete": {"ORTG": 104.2, "DRTG": 111.5, "PACE": 77.2},
+            "Corinthians": {"ORTG": 110.1, "DRTG": 111.8, "PACE": 77.5},
+            "Flamengo": {"ORTG": 116.4, "DRTG": 102.1, "PACE": 76.1},
+            "Fortaleza Basquete Cearense": {"ORTG": 108.1, "DRTG": 109.9, "PACE": 76.3},
+            "Mogi das Cruzes": {"ORTG": 102.4, "DRTG": 112.8, "PACE": 76.0},
+            "Minas Storm": {"ORTG": 113.8, "DRTG": 106.4, "PACE": 77.3},
+            "Pato Basquete": {"ORTG": 106.5, "DRTG": 109.0, "PACE": 75.8},
+            "Paulistano": {"ORTG": 107.2, "DRTG": 103.4, "PACE": 74.8},
+            "Pinheiros": {"ORTG": 105.9, "DRTG": 108.2, "PACE": 76.2},
+            "Sao Jose": {"ORTG": 108.9, "DRTG": 110.4, "PACE": 75.5},
+            "Sao Paulo FC": {"ORTG": 111.5, "DRTG": 110.1, "PACE": 76.5},
+            "Sesi Franca": {"ORTG": 115.1, "DRTG": 105.6, "PACE": 75.9},
+            "Unifacisa": {"ORTG": 111.2, "DRTG": 110.0, "PACE": 76.9},
+            "Vasco da Gama": {"ORTG": 107.8, "DRTG": 105.9, "PACE": 74.5},
+            "Botafogo": {"ORTG": 105.1, "DRTG": 114.9, "PACE": 78.1},
+            "Uniao Corinthians": {"ORTG": 104.9, "DRTG": 111.2, "PACE": 76.6}
+        }
+    }
+}
+
+# =========================================================================
+# COMPONENT CONTROL SELECTION (SIDEBAR)
+# =========================================================================
+selected_league_name = st.sidebar.selectbox("Active Competition", sorted(GLOBAL_LEAGUE_DATABASE.keys()))
+
+LEAGUE_CONTEXT = GLOBAL_LEAGUE_DATABASE[selected_league_name]
+LEAGUE_AVG_PACE = LEAGUE_CONTEXT["avg_pace"]
+LEAGUE_AVG_ORTG = LEAGUE_CONTEXT["avg_ortg"]
+HCA_BONUS = LEAGUE_CONTEXT["hca_bonus"]
+TEAM_DATABASE = LEAGUE_CONTEXT["teams"]
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Data Lineage tracking:**")
+if selected_league_name in ["NBA", "WNBA"]:
+    st.sidebar.caption(" Sourced via Basketball-Reference.com")
+else:
+    st.sidebar.caption(" Sourced via RealGM.com International Matrix")
+
+# =========================================================================
+# CLEAN MATCHUP INTERFACE
+# =========================================================================
+st.subheader(f" Matchup Design Engine: {selected_league_name}")
+
+col1, col2 = st.columns(2)
+with col1:
+    home_team = st.selectbox("Select Home Team (🏡)", sorted(TEAM_DATABASE.keys()), index=0)
+    h_ortg = float(TEAM_DATABASE[home_team]["ORTG"])
+    h_drtg = float(TEAM_DATABASE[home_team]["DRTG"])
+    h_pace = float(TEAM_DATABASE[home_team]["PACE"])
+
+with col2:
+    away_team = st.selectbox("Select Away Team (✈️)", sorted(TEAM_DATABASE.keys()), index=1 if len(TEAM_DATABASE) > 1 else 0)
+    a_ortg = float(TEAM_DATABASE[away_team]["ORTG"])
+    a_drtg = float(TEAM_DATABASE[away_team]["DRTG"])
+    a_pace = float(TEAM_DATABASE[away_team]["PACE"])
+
+st.markdown("---")
+
+# Initialize session state variables to prevent screen clearing when adjusting market lines
+if 'calculated' not in st.session_state:
+    st.session_state.calculated = False
+    st.session_state.p_home_ht = 0.0
+    st.session_state.p_away_ht = 0.0
+    st.session_state.p_home_ft = 0.0
+    st.session_state.p_away_ft = 0.0
+    st.session_state.m_spread = 0.0
+    st.session_state.last_matchup = ""
+
+current_matchup_key = f"{selected_league_name}_{home_team}_{away_team}"
+
+# Reset if matchup parameters change
+if st.session_state.last_matchup != current_matchup_key:
+    st.session_state.calculated = False
+    st.session_state.last_matchup = current_matchup_key
+
+# Main Action Trigger
+run_simulation = st.button("⚡ Run Predictive Simulation", type="primary", use_container_width=True)
+
+if run_simulation:
+    if home_team == away_team:
+        st.warning("Please select two different teams to compute projections.")
+        st.session_state.calculated = False
+    else:
+        # Calculate background metrics
+        predicted_pace = (h_pace + a_pace) - LEAGUE_AVG_PACE
+        
+        # Core mathematical equations
+        st.session_state.p_home_ft = ((h_ortg + a_drtg) - LEAGUE_AVG_ORTG) * (predicted_pace / 100) + HCA_BONUS
+        st.session_state.p_away_ft = ((a_ortg + h_drtg) - LEAGUE_AVG_ORTG) * (predicted_pace / 100)
+        
+        st.session_state.p_home_ht = st.session_state.p_home_ft * 0.50
+        st.session_state.p_away_ht = st.session_state.p_away_ft * 0.50
+        st.session_state.m_spread = st.session_state.p_away_ft - st.session_state.p_home_ft
+        st.session_state.calculated = True
+
+st.markdown("---")
+
+# =========================================================================
+# DISPLAY LOGIC AREA (CONDITIONAL ON CALCULATION STATE)
+# =========================================================================
+if st.session_state.calculated:
+    # 1. HALF TIME SCORE PROJECTIONS BLOCK
+    st.subheader("⏱️ Predicted Half-Time (HT) Scores")
+    col_ht1, col_ht2 = st.columns(2)
+    col_ht1.metric(f"🏡 {home_team} (HT)", f"{st.session_state.p_home_ht:.1f}")
+    col_ht2.metric(f"✈️ {away_team} (HT)", f"{st.session_state.p_away_ht:.1f}")
+    
+    st.markdown("---")
+
+    # 2. FINAL FULL TIME SCORE PROJECTIONS BLOCK
+    st.subheader("🏁 Predicted Final (FT) Scores")
+    col_ft1, col_ft2 = st.columns(2)
+    col_ft1.metric(f"🏡 {home_team} (Final)", f"{st.session_state.p_home_ft:.1f}")
+    col_ft2.metric(f"✈️ {away_team} (Final)", f"{st.session_state.p_away_ft:.1f}")
+
+    st.markdown("---")
+    
+    # 3. POINT SPREAD PROJECTIONS
+    st.subheader("📊 Model Point Spread")
+    sign = "+" if st.session_state.m_spread > 0 else ""
+    st.metric(label=f"Spread Line (Relative to {home_team})", value=f"{sign}{st.session_state.m_spread:.1f}")
+    
+    st.markdown("---")
+
+    # 4. LIVE BOOKIE COMPARATOR MATRIX
+    st.subheader("🎯 Edge Finder Matrix")
+    bookie_line = st.number_input(f"Sportsbook Line ({home_team} Spread)", value=float(np.round(st.session_state.m_spread)), step=0.5)
+    
+    spread_differential = bookie_line - st.session_state.m_spread
+    
+    st.markdown("#### Optimal Play Recommendation:")
+    if spread_differential > 1.0:
+        st.success(f"🟢 **Bet {home_team} ({bookie_line})** | The bookie line is higher than your predicted score gap.")
+    elif spread_differential < -1.0:
+        st.success(f"🟢 **Bet {away_team} (+{abs(bookie_line)})** | The bookie has overvalued the home team favorite margin.")
+    else:
+        st.info(f"❌ **Pass / Do Not Bet** | Market entry variance falls within optimal model line thresholds.")
+else:
+    st.info("💡 Adjust your matchups above and click **Run Predictive Simulation** to calculate values.")
