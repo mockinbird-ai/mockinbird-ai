@@ -376,4 +376,6 @@ if st.session_state.calculated:
         st.markdown(f"**Expected Matchup Total Pace Line:** `{predicted_pace:.2f}` possessions")
         st.markdown(f"**Baseline Competition Environment Average Pace:** `{LEAGUE_AVG_PACE}`")
         st.markdown(f"**Baseline Environment Average Offensive Rating:** `{LEAGUE_AVG_ORTG}`")
-        st.markdown(f"**Applied Home Field/Court Advantage Value:** `+{HCA_BONU
+        st.markdown(f"**Applied Home Field/Court Advantage Value:** `+{HCA_BONUS}` points")
+else:
+    st.info("💡 Confirm assignments above and select **'Run Predictive Analysis'** to construct the dynamic data table.")
