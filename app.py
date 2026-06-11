@@ -49,20 +49,23 @@ GLOBAL_LEAGUE_DATABASE = {
         }
     },
     "WNBA": {
-        "avg_pace": 81.2, "avg_ortg": 102.4, "hca_bonus": 2.5,
+        "avg_pace": 81.5, "avg_ortg": 103.2, "hca_bonus": 2.5,
         "teams": {
-            "Atlanta Dream": {"ORTG": 96.7, "DRTG": 101.5, "PACE": 79.8},
-            "Chicago Sky": {"ORTG": 98.2, "DRTG": 102.9, "PACE": 80.4},
-            "Connecticut Sun": {"ORTG": 103.1, "DRTG": 94.8, "PACE": 78.9},
-            "Dallas Wings": {"ORTG": 99.1, "DRTG": 107.4, "PACE": 81.7},
-            "Indiana Fever": {"ORTG": 102.8, "DRTG": 106.1, "PACE": 82.9},
-            "Las Vegas Aces": {"ORTG": 107.2, "DRTG": 99.1, "PACE": 82.4},
-            "Los Angeles Sparks": {"ORTG": 95.9, "DRTG": 104.7, "PACE": 79.5},
-            "Minnesota Lynx": {"ORTG": 105.4, "DRTG": 97.2, "PACE": 80.8},
-            "New York Liberty": {"ORTG": 108.5, "DRTG": 96.4, "PACE": 80.1},
-            "Phoenix Mercury": {"ORTG": 100.5, "DRTG": 103.4, "PACE": 82.1},
-            "Seattle Storm": {"ORTG": 101.9, "DRTG": 98.0, "PACE": 81.5},
-            "Washington Mystics": {"ORTG": 97.4, "DRTG": 102.8, "PACE": 80.2}
+            "Atlanta Dream": {"ORTG": 98.7, "DRTG": 100.2, "PACE": 80.1},
+            "Chicago Sky": {"ORTG": 97.5, "DRTG": 101.4, "PACE": 81.2},
+            "Connecticut Sun": {"ORTG": 102.1, "DRTG": 95.6, "PACE": 79.4},
+            "Dallas Wings": {"ORTG": 101.4, "DRTG": 104.2, "PACE": 82.5},
+            "Golden State Valkyries": {"ORTG": 102.8, "DRTG": 101.1, "PACE": 81.8},
+            "Indiana Fever": {"ORTG": 104.2, "DRTG": 105.0, "PACE": 83.1},
+            "Las Vegas Aces": {"ORTG": 108.5, "DRTG": 100.3, "PACE": 82.9},
+            "Los Angeles Sparks": {"ORTG": 98.1, "DRTG": 103.2, "PACE": 80.6},
+            "Minnesota Lynx": {"ORTG": 106.2, "DRTG": 98.1, "PACE": 81.3},
+            "New York Liberty": {"ORTG": 107.9, "DRTG": 97.5, "PACE": 80.9},
+            "Phoenix Mercury": {"ORTG": 101.2, "DRTG": 102.8, "PACE": 82.4},
+            "Portland Fire": {"ORTG": 99.4, "DRTG": 102.5, "PACE": 81.1},
+            "Seattle Storm": {"ORTG": 103.0, "DRTG": 99.2, "PACE": 81.7},
+            "Toronto Tempo": {"ORTG": 100.5, "DRTG": 101.8, "PACE": 80.8},
+            "Washington Mystics": {"ORTG": 98.9, "DRTG": 102.1, "PACE": 80.5}
         }
     },
     "Spain (Liga ACB)": {
@@ -325,37 +328,37 @@ if execute_simulation:
         p_home_ht = p_home_ft * 0.50
         p_away_ht = p_away_ft * 0.50
         
-        # Step 4: Map Final Output Values
+        # Step 4: Map Final Output Values & Assign Correct Outright Winners
         final_spread = p_away_ft - p_home_ft
         sign_string = "+" if final_spread > 0 else ""
         
-        # Step 5: Declare Moneyline Verdict Winner
         if p_home_ft > p_away_ft:
-            st.session_state.winner_verdict = f"🏡 {home_team} (Home Victory expected)"
+            st.session_state.winner_verdict = f"🏡 {home_team} (Home Winner Outright)"
         else:
-            st.session_state.winner_verdict = f"✈️ {away_team} (Away Victory expected)"
+            st.session_state.winner_verdict = f"✈️ {away_team} (Away Winner Outright)"
             
-        # Step 6: Package into a clean analytical summary Table DataFrame
+        # Step 5: Package into clean analytical summary Table DataFrame
         data_matrix = {
             "Team Segment": [f"🏡 {home_team} (Home)", f"✈️ {away_team} (Away)"],
             "Half Time (HT) Score": [f"{p_home_ht:.1f}", f"{p_away_ht:.1f}"],
             "Final Score (FT)": [f"{p_home_ft:.1f}", f"{p_away_ft:.1f}"],
-            "Model Point Spread Line": [f"{sign_string}{final_spread:.1f}", f"{-final_spread:+.1f}"]
+            "Model Point Spread Line": [f"{final_spread:+.1f}", f"{-final_spread:+.1f}"]
         }
         
         st.session_state.summary_df = pd.DataFrame(data_matrix)
         st.session_state.calculated = True
 
 # =========================================================================
-# RENDER OUTPUT MATRIX TABLE VIEW
+# RENDER OUTPUT MATRIX TABLE VIEW WITH EXPLICIT WINNER UI
 # =========================================================================
 if st.session_state.calculated:
     st.subheader("📊 Model Projections Summary Matrix")
     
-    # Display Winner Metric Callout Block
-    st.metric(label="🎯 Predicted Direct Moneyline Outright Winner", value=st.session_state.winner_verdict)
+    # Explicit Winner Section Added directly to the UI
+    st.markdown("### 🏆 Predicted Winner Matrix")
+    st.info(f"**Direct Moneyline Outright Winner Projection:** {st.session_state.winner_verdict}")
     
-    # Render full clean Data Frame Table Format
+    # Render table view format
     st.table(st.session_state.summary_df)
     
     # Extra Advanced Context block for review
