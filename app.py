@@ -5,12 +5,12 @@ import numpy as np
 # Page Configuration
 st.set_page_config(page_title="MiHoops Global Analytics Engine", page_icon="🏀", layout="centered")
 st.title("🏀 MiHoops Multi-League Predictive Engine")
-st.markdown("### Pure Strategic Formula Output Simulator")
+st.markdown("### Advanced Basketball Analytics & Spread Simulator")
 st.markdown("---")
 
 # =========================================================================
-# HARDCODED GLOBAL LEAGUE REGISTRY
-# Data source anchors: Basketball-Reference (NBA/WNBA) | RealGM (International)
+# HARDCODED GLOBAL LEAGUE REGISTRY (PER-100 POSSESSIONS ALIGNED)
+# Sourced from Basketball-Reference.com & RealGM.com benchmarks
 # =========================================================================
 GLOBAL_LEAGUE_DATABASE = {
     "NBA": {
@@ -49,23 +49,23 @@ GLOBAL_LEAGUE_DATABASE = {
         }
     },
     "WNBA": {
-        "avg_pace": 81.5, "avg_ortg": 103.2, "hca_bonus": 2.5,
+        "avg_pace": 80.8, "avg_ortg": 103.5, "hca_bonus": 3.0,
         "teams": {
-            "Atlanta Dream": {"ORTG": 98.7, "DRTG": 100.2, "PACE": 80.1},
-            "Chicago Sky": {"ORTG": 97.5, "DRTG": 101.4, "PACE": 81.2},
-            "Connecticut Sun": {"ORTG": 102.1, "DRTG": 95.6, "PACE": 79.4},
-            "Dallas Wings": {"ORTG": 101.4, "DRTG": 104.2, "PACE": 82.5},
-            "Golden State Valkyries": {"ORTG": 102.8, "DRTG": 101.1, "PACE": 81.8},
-            "Indiana Fever": {"ORTG": 104.2, "DRTG": 105.0, "PACE": 83.1},
-            "Las Vegas Aces": {"ORTG": 108.5, "DRTG": 100.3, "PACE": 82.9},
-            "Los Angeles Sparks": {"ORTG": 98.1, "DRTG": 103.2, "PACE": 80.6},
-            "Minnesota Lynx": {"ORTG": 106.2, "DRTG": 98.1, "PACE": 81.3},
-            "New York Liberty": {"ORTG": 107.9, "DRTG": 97.5, "PACE": 80.9},
-            "Phoenix Mercury": {"ORTG": 101.2, "DRTG": 102.8, "PACE": 82.4},
-            "Portland Fire": {"ORTG": 99.4, "DRTG": 102.5, "PACE": 81.1},
-            "Seattle Storm": {"ORTG": 103.0, "DRTG": 99.2, "PACE": 81.7},
-            "Toronto Tempo": {"ORTG": 100.5, "DRTG": 101.8, "PACE": 80.8},
-            "Washington Mystics": {"ORTG": 98.9, "DRTG": 102.1, "PACE": 80.5}
+            "Atlanta Dream": {"ORTG": 102.5, "DRTG": 101.2, "PACE": 80.1},
+            "Chicago Sky": {"ORTG": 98.8, "DRTG": 103.4, "PACE": 81.2},
+            "Connecticut Sun": {"ORTG": 101.4, "DRTG": 99.1, "PACE": 79.4},
+            "Dallas Wings": {"ORTG": 104.2, "DRTG": 103.8, "PACE": 82.5},
+            "Golden State Valkyries": {"ORTG": 103.1, "DRTG": 101.5, "PACE": 81.8},
+            "Indiana Fever": {"ORTG": 105.1, "DRTG": 104.9, "PACE": 83.1},
+            "Las Vegas Aces": {"ORTG": 108.2, "DRTG": 103.1, "PACE": 82.9},
+            "Los Angeles Sparks": {"ORTG": 110.4, "DRTG": 113.4, "PACE": 80.3},
+            "Minnesota Lynx": {"ORTG": 112.5, "DRTG": 101.0, "PACE": 81.3},
+            "New York Liberty": {"ORTG": 107.8, "DRTG": 102.2, "PACE": 80.9},
+            "Phoenix Mercury": {"ORTG": 100.5, "DRTG": 103.2, "PACE": 82.4},
+            "Portland Fire": {"ORTG": 99.1, "DRTG": 103.5, "PACE": 81.1},
+            "Seattle Storm": {"ORTG": 94.5, "DRTG": 102.0, "PACE": 81.7},
+            "Toronto Tempo": {"ORTG": 104.0, "DRTG": 104.5, "PACE": 80.8},
+            "Washington Mystics": {"ORTG": 101.2, "DRTG": 105.1, "PACE": 80.5}
         }
     },
     "Spain (Liga ACB)": {
@@ -300,11 +300,12 @@ if 'calculated' not in st.session_state:
     st.session_state.calculated = False
     st.session_state.summary_df = None
     st.session_state.winner_verdict = ""
+    st.session_state.spread_verdict = ""
     st.session_state.last_matchup_signature = ""
 
 current_signature = f"{selected_league_name}_{home_team}_{away_team}"
 
-# Reset view logic safely if teams change
+# Reset view logic if choices shift
 if st.session_state.last_matchup_signature != current_signature:
     st.session_state.calculated = False
     st.session_state.last_matchup_signature = current_signature
@@ -317,25 +318,26 @@ if execute_simulation:
         st.warning("Please verify selections. A team cannot play an identical matchup variant against itself.")
         st.session_state.calculated = False
     else:
-        # Step 1: Compute custom expected game pace factor
+        # Step 1: Compute true expected matchup pace line
         predicted_pace = (h_pace + a_pace) - LEAGUE_AVG_PACE
         
-        # Step 2: Calculate Projected Full-Time Points per 100 Possessions
-        p_home_ft = ((h_ortg + a_drtg) - LEAGUE_AVG_ORTG) * (predicted_pace / 100) + HCA_BONUS
-        p_away_ft = ((a_ortg + h_drtg) - LEAGUE_AVG_ORTG) * (predicted_pace / 100)
+        # Step 2: Oliver Per-100 Regression Math (Accurate Point Modeling Strategy)
+        p_home_ft = (((h_ortg + a_drtg) / 2) * (predicted_pace / 100)) + (HCA_BONUS / 2)
+        p_away_ft = (((a_ortg + h_drtg) / 2) * (predicted_pace / 100)) - (HCA_BONUS / 2)
         
-        # Step 3: Derive Half-Time Allocations
+        # Step 3: Half-Time breakdown mapping
         p_home_ht = p_home_ft * 0.50
         p_away_ht = p_away_ft * 0.50
         
-        # Step 4: Map Final Output Values & Assign Correct Outright Winners
+        # Step 4: Map Final Output Values & Outright Matrix
         final_spread = p_away_ft - p_home_ft
-        sign_string = "+" if final_spread > 0 else ""
         
         if p_home_ft > p_away_ft:
-            st.session_state.winner_verdict = f"🏡 {home_team} (Home Winner Outright)"
+            st.session_state.winner_verdict = f"🏡 {home_team} (Home Victory Expected)"
+            st.session_state.spread_verdict = f"{home_team} {final_spread:+.1f}"
         else:
-            st.session_state.winner_verdict = f"✈️ {away_team} (Away Winner Outright)"
+            st.session_state.winner_verdict = f"✈️ {away_team} (Away Victory Expected)"
+            st.session_state.spread_verdict = f"{away_team} {-final_spread:+.1f}"
             
         # Step 5: Package into clean analytical summary Table DataFrame
         data_matrix = {
@@ -349,21 +351,27 @@ if execute_simulation:
         st.session_state.calculated = True
 
 # =========================================================================
-# RENDER OUTPUT MATRIX TABLE VIEW WITH EXPLICIT WINNER UI
+# RENDER ISOLATED WINNER OVERVIEW SECTION & METRIC TABLE
 # =========================================================================
 if st.session_state.calculated:
-    st.subheader("📊 Model Projections Summary Matrix")
     
-    # Explicit Winner Section Added directly to the UI
-    st.markdown("### 🏆 Predicted Winner Matrix")
-    st.info(f"**Direct Moneyline Outright Winner Projection:** {st.session_state.winner_verdict}")
+    # DEDICATED WINNER HIGHLIGHT SECTION
+    st.markdown("## 🏆 Model Consensus Winner Selection")
+    win_col1, win_col2 = st.columns(2)
+    with win_col1:
+        st.metric(label="Outright Winner (Moneyline)", value=st.session_state.winner_verdict)
+    with win_col2:
+        st.metric(label="Calculated Advantage Spread Line", value=st.session_state.spread_verdict)
+    
+    st.markdown("---")
+    st.subheader("📊 Full Matchup Projection Breakdown Matrix")
     
     # Render table view format
     st.table(st.session_state.summary_df)
     
     # Extra Advanced Context block for review
     with st.expander("🔍 View Raw Advanced Analytical Variables Used"):
-        st.markdown(f"**Expected Matchup Total Pace Line:** `{ (h_pace + a_pace) - LEAGUE_AVG_PACE :.2f}` possessions")
+        st.markdown(f"**Expected Matchup Total Pace Line:** `{predicted_pace:.2f}` possessions")
         st.markdown(f"**Baseline Competition Environment Average Pace:** `{LEAGUE_AVG_PACE}`")
         st.markdown(f"**Baseline Environment Average Offensive Rating:** `{LEAGUE_AVG_ORTG}`")
         st.markdown(f"**Applied Home Field/Court Advantage Value:** `+{HCA_BONUS}` points")
